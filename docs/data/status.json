@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "run_status": "ok_out_of_season",
-  "run_timestamp_utc": "2026-10-14T15:59:45.250013+00:00",
+  "run_timestamp_utc": "2026-10-14T16:35:21.342880+00:00",
   "data_source": "Copernicus Marine Global Ocean Waves Analysis and Forecast",
   "dataset_id": "cmems_mod_glo_wav_anfc_0.083deg_PT3H-i",
   "variable": "VTPK",
