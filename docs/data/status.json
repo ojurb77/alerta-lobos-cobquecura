@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "run_status": "setup_required",
+  "run_timestamp_utc": null,
+  "data_source": "Copernicus Marine Global Ocean Waves Analysis and Forecast",
+  "dataset_id": "cmems_mod_glo_wav_anfc_0.083deg_PT3H-i",
+  "variable": "VTPK",
+  "season_active_today": false,
+  "message": "Panel sin conectar todavía. Configura los secretos de Copernicus y ejecuta el workflow manualmente.",
+  "predictions": [],
+  "daily_wave_data": [],
+  "thresholds": {
+    "watch": 0.45,
+    "alert": 0.5
+  },
+  "model": {
+    "target": ">=5 crías varadas en un día",
+    "equation": "p = logistic(-6.94312994 + 0.10647496*season_day + 0.43959415*Tp_previous_day)",
+    "validation": "LOYO histórico 2022–2026; AUC ROC agregada aproximada 0.789; uso con pronóstico aún no validado",
+    "operational_status": "experimental_no_official_alert"
+  },
+  "limitations": [
+    "Modelo experimental; no equivale a una alerta oficial.",
+    "El rendimiento con pronósticos operacionales todavía debe validarse.",
+    "La comparabilidad de VTPK con la serie histórica y su agregación debe confirmarse.",
+    "Si faltan datos, no debe interpretarse la ausencia de predicción como riesgo bajo."
+  ]
+}

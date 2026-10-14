@@ -1,0 +1,5 @@
+copernicusmarine>=2.2,<3
+xarray>=2024.1
+netCDF4>=1.6
+numpy>=1.26
+pandas>=2.1

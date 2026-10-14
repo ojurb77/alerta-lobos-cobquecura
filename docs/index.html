@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Panel experimental de alerta temprana de varamientos de crías de lobo marino en Cobquecura.">
+  <title>Alerta de varamientos — Cobquecura</title>
+  <style>
+    :root { color-scheme: light; --ink:#18252b; --muted:#53636b; --line:#d7e0e4; --paper:#f4f7f8; --card:#fff; --blue:#145b75; --amber:#8b5c00; --red:#9e2d28; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--paper); color:var(--ink); font:16px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    header { background:#103d50; color:white; padding:28px 18px; }
+    header .wrap, main { max-width:1050px; margin:0 auto; }
+    h1 { margin:0 0 6px; font-size:clamp(1.5rem,4vw,2.2rem); }
+    header p { margin:0; color:#e1edf1; }
+    main { padding:22px 16px 40px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:17px; box-shadow:0 2px 8px #19394608; }
+    .label { font-size:.82rem; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; font-weight:700; }
+    .value { font-size:1.15rem; font-weight:700; margin-top:5px; overflow-wrap:anywhere; }
+    h2 { font-size:1.25rem; margin:28px 0 12px; }
+    .notice { border-left:5px solid var(--amber); background:#fff8e8; padding:14px 16px; border-radius:8px; margin:18px 0; }
+    .notice strong { display:block; margin-bottom:3px; }
+    .status { display:inline-block; border-radius:999px; padding:4px 9px; font-weight:700; font-size:.85rem; background:#e9eef0; color:#31434b; }
+    .status.ok { background:#e2f4e8; color:#205d35; }
+    .status.error, .status.data_incomplete { background:#ffebe8; color:#8b211b; }
+    .status.ok_out_of_season { background:#eaf1f5; color:#31576a; }
+    table { width:100%; border-collapse:collapse; background:white; font-size:.94rem; }
+    th,td { padding:10px 9px; text-align:left; border-bottom:1px solid var(--line); }
+    th { background:#edf3f5; }
+    .table-wrap { overflow-x:auto; border:1px solid var(--line); border-radius:12px; }
+    .small { color:var(--muted); font-size:.9rem; }
+    footer { margin-top:28px; color:var(--muted); font-size:.86rem; }
+    a { color:#075b78; }
+    @media(max-width:600px) { th,td { padding:8px 6px; font-size:.85rem; } }
+  </style>
+</head>
+<body>
+<header><div class="wrap">
+  <h1>Panel de alerta de varamientos — Cobquecura</h1>
+  <p>Seguimiento experimental de oleaje y riesgo de varamientos de crías de lobo marino común</p>
+</div></header>
+<main>
+  <div class="notice">
+    <strong>Panel piloto — no es una alerta oficial</strong>
+    Este modelo aún debe validarse con pronósticos operacionales. Una probabilidad baja, un panel sin datos o un error técnico no descartan varamientos. Mantén los protocolos de vigilancia habituales.
+  </div>
+
+  <div class="grid">
+    <section class="card"><div class="label">Estado de actualización</div><div class="value" id="runstatus">Cargando…</div><div id="statusmessage" class="small"></div></section>
+    <section class="card"><div class="label">Última ejecución (UTC)</div><div class="value" id="updated">—</div></section>
+    <section class="card"><div class="label">Ventana estudiada</div><div class="value">16 ene. – 15 feb.</div><div class="small">Fuera de estas fechas no se emiten predicciones.</div></section>
+    <section class="card"><div class="label">Objetivo del modelo</div><div class="value">≥ 5 crías en un día</div><div class="small">Probabilidad experimental, no certeza de evento.</div></section>
+  </div>
+
+  <h2>Predicciones para los próximos días</h2>
+  <p class="small">Los umbrales provisionales son 45% (vigilancia reforzada) y 50% (alerta experimental). Las métricas históricas no garantizan el mismo rendimiento con pronósticos operacionales.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Fecha objetivo</th><th>Oleaje predictor (s)</th><th>Probabilidad</th><th>Interpretación</th><th>Estado</th></tr></thead>
+      <tbody id="predictions"><tr><td colspan="5">Cargando datos…</td></tr></tbody>
+    </table>
+  </div>
+
+  <h2>Últimos valores diarios de período de pico</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Fecha UTC</th><th>VTPK medio (s)</th><th>Registros de 3 h válidos</th><th>Cobertura</th></tr></thead>
+      <tbody id="waves"><tr><td colspan="4">Cargando datos…</td></tr></tbody>
+    </table>
+  </div>
+
+  <h2>Sobre el modelo</h2>
+  <section class="card">
+    <p><strong>Fuente:</strong> <a href="https://data.marine.copernicus.eu/product/GLOBAL_ANALYSISFORECAST_WAV_001_027/description" target="_blank" rel="noopener">Copernicus Marine — Global Ocean Waves Analysis and Forecast</a>.</p>
+    <p><strong>Variable:</strong> VTPK, período de pico del oleaje en segundos.</p>
+    <p><strong>Modelo:</strong> regresión logística provisional entrenada con datos históricos 2022–2026. Validación leave-one-year-out: AUC ROC aproximada 0,789 para el objetivo ≥5 crías/día. La selección de variables y el uso de pronósticos deben validarse adicionalmente.</p>
+    <p><strong>Protección contra datos incompletos:</strong> el proceso exige al menos 6 de 8 tiempos diarios con datos. Si no se cumple, no calcula una probabilidad para esa fecha.</p>
+  </section>
+  <footer>Panel experimental de apoyo a la vigilancia. Última lectura desde <code>data/status.json</code>. El historial y el código de cálculo se guardan en el repositorio.</footer>
+</main>
+<script>
+const fmt = v => (v === null || v === undefined) ? "—" : String(v);
+function esc(v) { return String(v ?? "").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+async function load() {
+  try {
+    const res = await fetch("./data/status.json?ts=" + Date.now(), {cache:"no-store"});
+    if (!res.ok) throw new Error("No se pudo leer el archivo de estado.");
+    const d = await res.json();
+    const el = document.getElementById("runstatus");
+    el.textContent = d.run_status || "desconocido";
+    el.className = "value";
+    const badge = document.createElement("span");
+    badge.className = "status " + (d.run_status || "");
+    badge.textContent = d.run_status || "desconocido";
+    el.textContent = "";
+    el.appendChild(badge);
+    document.getElementById("statusmessage").textContent = d.message || "";
+    document.getElementById("updated").textContent = d.run_timestamp_utc || "—";
+
+    const preds = d.predictions || [];
+    document.getElementById("predictions").innerHTML = preds.length ? preds.map(p => `
+      <tr>
+        <td>${esc(p.target_date)}</td>
+        <td>${p.tp_previous_day_s == null ? "—" : esc(p.tp_previous_day_s)}</td>
+        <td>${p.probability_percent == null ? "—" : esc(p.probability_percent + "%")}</td>
+        <td>${esc(p.level || p.message || "Sin cálculo")}</td>
+        <td>${esc(p.status || "—")}</td>
+      </tr>`).join("") : `<tr><td colspan="5">No hay predicciones activas para la fecha actual. Fuera de temporada esto es esperado.</td></tr>`;
+
+    const waves = d.daily_wave_data || [];
+    document.getElementById("waves").innerHTML = waves.length ? waves.slice(-10).reverse().map(w => `
+      <tr>
+        <td>${esc(w.date_utc)}</td>
+        <td>${esc(w.tp_peak_mean_s)}</td>
+        <td>${esc(w.valid_3h_steps)}</td>
+        <td>${w.coverage_ok ? "Suficiente" : "Insuficiente"}</td>
+      </tr>`).join("") : `<tr><td colspan="4">Sin datos de oleaje disponibles.</td></tr>`;
+  } catch (e) {
+    document.getElementById("runstatus").textContent = "Sin conexión a datos";
+    document.getElementById("statusmessage").textContent = "No se pudo cargar el estado. No interpretar como riesgo bajo.";
+    document.getElementById("predictions").innerHTML = `<tr><td colspan="5">No se pudieron cargar los datos.</td></tr>`;
+    document.getElementById("waves").innerHTML = `<tr><td colspan="4">No se pudieron cargar los datos.</td></tr>`;
+  }
+}
+load();
+</script>
+</body>
+</html>
