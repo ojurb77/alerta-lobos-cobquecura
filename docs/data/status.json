@@ -1,14 +1,75 @@
 {
   "schema_version": 1,
-  "run_status": "setup_required",
-  "run_timestamp_utc": null,
+  "run_status": "ok_out_of_season",
+  "run_timestamp_utc": "2026-10-14T15:59:45.250013+00:00",
   "data_source": "Copernicus Marine Global Ocean Waves Analysis and Forecast",
   "dataset_id": "cmems_mod_glo_wav_anfc_0.083deg_PT3H-i",
   "variable": "VTPK",
   "season_active_today": false,
-  "message": "Panel sin conectar todavía. Configura los secretos de Copernicus y ejecuta el workflow manualmente.",
+  "message": "No hay fechas objetivo dentro de la ventana estacional (16 de enero–15 de febrero) en el horizonte actual.",
   "predictions": [],
-  "daily_wave_data": [],
+  "daily_wave_data": [
+    {
+      "date_utc": "2026-10-14",
+      "tp_peak_mean_s": 14.027,
+      "valid_3h_steps": 8,
+      "coverage_ok": true
+    },
+    {
+      "date_utc": "2026-10-15",
+      "tp_peak_mean_s": 15.366,
+      "valid_3h_steps": 8,
+      "coverage_ok": true
+    },
+    {
+      "date_utc": "2026-10-16",
+      "tp_peak_mean_s": 14.393,
+      "valid_3h_steps": 8,
+      "coverage_ok": true
+    },
+    {
+      "date_utc": "2026-10-17",
+      "tp_peak_mean_s": 12.876,
+      "valid_3h_steps": 8,
+      "coverage_ok": true
+    },
+    {
+      "date_utc": "2026-10-18",
+      "tp_peak_mean_s": 13.709,
+      "valid_3h_steps": 8,
+      "coverage_ok": true
+    },
+    {
+      "date_utc": "2026-10-19",
+      "tp_peak_mean_s": 15.945,
+      "valid_3h_steps": 8,
+      "coverage_ok": true
+    },
+    {
+      "date_utc": "2026-10-20",
+      "tp_peak_mean_s": 15.472,
+      "valid_3h_steps": 8,
+      "coverage_ok": true
+    },
+    {
+      "date_utc": "2026-10-21",
+      "tp_peak_mean_s": 15.168,
+      "valid_3h_steps": 8,
+      "coverage_ok": true
+    },
+    {
+      "date_utc": "2026-10-22",
+      "tp_peak_mean_s": 13.703,
+      "valid_3h_steps": 8,
+      "coverage_ok": true
+    },
+    {
+      "date_utc": "2026-10-23",
+      "tp_peak_mean_s": 13.333,
+      "valid_3h_steps": 1,
+      "coverage_ok": false
+    }
+  ],
   "thresholds": {
     "watch": 0.45,
     "alert": 0.5
@@ -22,7 +83,7 @@
   "limitations": [
     "Modelo experimental; no equivale a una alerta oficial.",
     "El rendimiento con pronósticos operacionales todavía debe validarse.",
-    "La comparabilidad de VTPK con la serie histórica y su agregación debe confirmarse.",
+    "VTPK es el período de pico; la equivalencia de agregación con la serie histórica debe confirmarse.",
     "Si faltan datos, no debe interpretarse la ausencia de predicción como riesgo bajo."
   ]
 }
