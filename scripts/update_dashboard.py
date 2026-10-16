@@ -102,30 +102,82 @@ def fetch_forecast(start: date, end: date) -> Path:
     return result
 
 
-def daily_tp_from_netcdf(path: Path) -> tuple[dict[str, float], dict[str, int]]:
+
+def daily_tp_from_netcdf(path: Path):
     with xr.open_dataset(path) as ds:
-        if VARIABLE not in ds:
-            raise RuntimeError(f"El archivo no contiene la variable {VARIABLE}.")
-        if "time" not in ds[VARIABLE].dims:
-            raise RuntimeError("La variable de período no tiene dimensión temporal.")
+        required = ["VTPK", "VHM0", "VMDR"]
+        missing = [v for v in required if v not in ds]
+        if missing:
+            raise RuntimeError(
+                f"Faltan variables en el archivo de oleaje: {', '.join(missing)}"
+            )
 
-        da = ds[VARIABLE].astype("float64")
-        non_time_dims = [d for d in da.dims if d != "time"]
-        # Promedio espacial por cada hora de validez, evitando que las horas con más
-        # celdas válidas pesen más que las demás.
-        per_time = da.mean(dim=non_time_dims, skipna=True) if non_time_dims else da
+        if "time" not in ds["VTPK"].dims:
+            raise RuntimeError("La variable VTPK no tiene dimensión temporal.")
+
         times = pd.to_datetime(ds["time"].values, utc=True)
-        values = np.asarray(per_time.values, dtype=float).reshape(-1)
 
-    frame = pd.DataFrame({"time": times, "tp": values})
-    frame = frame[np.isfinite(frame["tp"])]
-    if frame.empty:
-        raise RuntimeError("La variable VTPK no contiene valores válidos en el área seleccionada.")
+        def spatial_mean(variable):
+            da = ds[variable].astype("float64")
+            dims = [d for d in da.dims if d != "time"]
+            return da.mean(dim=dims, skipna=True) if dims else da
+
+        tp = np.asarray(spatial_mean("VTPK").values, dtype=float).reshape(-1)
+        hs = np.asarray(spatial_mean("VHM0").values, dtype=float).reshape(-1)
+
+        # Promedio circular de dirección: evita errores al cruzar 0°/360°.
+        direction = ds["VMDR"].astype("float64")
+        dims = [d for d in direction.dims if d != "time"]
+        radians = np.deg2rad(direction)
+       
+        sin_values = np.sin(radians)
+        cos_values = np.cos(radians)
+        sin_mean = sin_values.mean(dim=dims, skipna=True) if dims else sin_values
+        cos_mean = cos_values.mean(dim=dims, skipna=True) if dims else cos_values
+
+        direction_values = np.mod(
+            np.rad2deg(np.arctan2(
+                np.asarray(sin_mean.values, dtype=float).reshape(-1),
+                np.asarray(cos_mean.values, dtype=float).reshape(-1)
+            )),
+            360
+        )
+
+    frame = pd.DataFrame({
+        "time": times,
+        "tp": tp,
+        "hs": hs,
+        "direction": direction_values
+    })
     frame["date"] = frame["time"].dt.strftime("%Y-%m-%d")
-    daily = frame.groupby("date")["tp"].agg(["mean", "count"])
-    means = {str(k): float(v["mean"]) for k, v in daily.iterrows()}
-    counts = {str(k): int(v["count"]) for k, v in daily.iterrows()}
-    return means, counts
+
+    valid_tp = frame[np.isfinite(frame["tp"])]
+    if valid_tp.empty:
+        raise RuntimeError("VTPK no contiene valores válidos en el área seleccionada.")
+
+    daily_tp = valid_tp.groupby("date")["tp"].agg(["mean", "count"])
+    means = {str(k): float(v["mean"]) for k, v in daily_tp.iterrows()}
+    counts = {str(k): int(v["count"]) for k, v in daily_tp.iterrows()}
+
+    metrics = {}
+    for day, group in frame.groupby("date"):
+        heights = group["hs"].dropna()
+        angles = np.deg2rad(group["direction"].dropna())
+        direction_mean = None
+        if len(angles):
+            direction_mean = float(
+                np.rad2deg(np.arctan2(np.sin(angles).mean(), np.cos(angles).mean()))
+                % 360
+            )
+
+        metrics[str(day)] = {
+            "hs_mean_m": round(float(heights.mean()), 3) if len(heights) else None,
+            "hs_max_m": round(float(heights.max()), 3) if len(heights) else None,
+            "wave_direction_deg": round(direction_mean, 1) if direction_mean is not None else None
+        }
+
+    return means, counts, metrics
+
 
 
 def read_json(path: Path, default):
@@ -178,15 +230,21 @@ def main() -> int:
         start = today
         end = today + timedelta(days=9)
         nc_path = fetch_forecast(start, end)
-        means, counts = daily_tp_from_netcdf(nc_path)
+        means, counts, metrics = daily_tp_from_netcdf(nc_path)
+
 
         for day_str in sorted(means):
+            day_metrics = metrics.get(day_str, {})
             status["daily_wave_data"].append({
                 "date_utc": day_str,
                 "tp_peak_mean_s": round(means[day_str], 3),
+                "hs_mean_m": day_metrics.get("hs_mean_m"),
+                "hs_max_m": day_metrics.get("hs_max_m"),
+                "wave_direction_deg": day_metrics.get("wave_direction_deg"),
                 "valid_3h_steps": counts[day_str],
                 "coverage_ok": counts[day_str] >= MIN_VALID_TIMESTEPS
             })
+
 
         # Objetivos de mañana hasta el final del horizonte, solo dentro de la
         # ventana estacional que el modelo estudió.
