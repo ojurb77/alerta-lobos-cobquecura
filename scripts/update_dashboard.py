@@ -81,7 +81,7 @@ def fetch_forecast(start: date, end: date) -> Path:
         dataset_id=DATASET_ID,
         username=username,
         password=password,
-        variables=[VARIABLE],
+        variables=["VTPK", "VHM0", "VMDR"],
         minimum_longitude=MIN_LON,
         maximum_longitude=MAX_LON,
         minimum_latitude=MIN_LAT,
