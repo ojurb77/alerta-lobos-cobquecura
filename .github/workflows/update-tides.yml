@@ -88,10 +88,20 @@ jobs:
                   f"coincidencias: {len(inicio)}. No se guardaron datos."
               )
 
-          seleccion = filas[inicio[0]:inicio[0] + 7]
-          print("Diagnóstico de filas:", [(f["dia"], f["letra"], len(f["horas"]), len(f["alturas"])) for f in filas])
-          if len(seleccion) < 7:
-              raise RuntimeError("La tabla no ofrece siete días completos.")
+          seleccion = []
+          for i in range(7):
+              fecha = hoy + timedelta(days=i)
+              coincidencias = [
+                  f for f in filas
+                  if f["dia"] == fecha.day
+                  and f["letra"] == letras[fecha.weekday()]
+              ]
+              if len(coincidencias) != 1:
+                  raise RuntimeError(
+                      f"No se encontró una fila única para {fecha}. "
+                      "No se guardaron datos."
+                  )
+              seleccion.append(coincidencias[0])
 
           dias = []
           for i, f in enumerate(seleccion):
