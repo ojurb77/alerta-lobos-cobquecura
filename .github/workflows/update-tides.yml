@@ -66,7 +66,7 @@ jobs:
               contenido = " ".join(tr.stripped_strings)
               horas = re.findall(r"\b\d{1,2}:\d{2}\s*h\b", contenido)
               alturas = re.findall(r"\b\d+(?:[,.]\d+)?\s*m\b", contenido)
-              if len(horas) == 6 and len(alturas) == 4:
+              if len(horas) >= 5 and len(alturas) >= 3:
                   filas.append({
                       "dia": int(m.group(1)),
                       "letra": m.group(2).upper(),
@@ -101,16 +101,15 @@ jobs:
                       f"se encontró día {f['dia']} ({f['letra']})."
                   )
               h, a = f["horas"], f["alturas"]
+              mareas = [
+                  {"time": hora, "height_m": altura}
+                  for hora, altura in zip(h[2:], a)
+              ]
               dias.append({
                   "date": fecha.isoformat(),
                   "sunrise": h[0],
                   "sunset": h[1],
-                  "tides": [
-                      {"time": h[2], "height_m": a[0]},
-                      {"time": h[3], "height_m": a[1]},
-                      {"time": h[4], "height_m": a[2]},
-                      {"time": h[5], "height_m": a[3]}
-                  ]
+                  "tides": mareas
               })
 
           salida = Path("docs/data/tides.json")
@@ -128,10 +127,12 @@ jobs:
               json.dumps(datos, ensure_ascii=False, indent=2) + "\n",
               encoding="utf-8"
           )
+          
           print("ÉXITO: siete días de mareas validados.")
           for d in dias:
               print(d["date"], d["tides"])
-
+          PY
+          
       - name: Guardar solo los datos de mareas
         run: |
           git config user.name "github-actions[bot]"
