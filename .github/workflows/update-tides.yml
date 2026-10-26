@@ -1,0 +1,146 @@
+
+name: Actualizar tabla de mareas de Cobquecura
+
+on:
+  schedule:
+    - cron: "15 9 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: actualizar-mareas-cobquecura
+  cancel-in-progress: false
+
+jobs:
+  update-tides:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Instalar lector de tabla
+        run: python -m pip install requests beautifulsoup4
+
+      - name: Extraer y validar mareas
+        run: |
+          python - <<'PY'
+          import json
+          import re
+          from datetime import datetime, timedelta
+          from pathlib import Path
+          from zoneinfo import ZoneInfo
+          import requests
+          from bs4 import BeautifulSoup
+
+          url = "https://tablademareas.com/cl/nuble/cobquecura"
+          tz = ZoneInfo("America/Santiago")
+          hoy = datetime.now(tz).date()
+          letras = {0:"L", 1:"M", 2:"X", 3:"J", 4:"V", 5:"S", 6:"D"}
+
+          r = requests.get(url, timeout=30,
+                           headers={"User-Agent":"Mozilla/5.0"})
+          print("Código HTTP:", r.status_code)
+          r.raise_for_status()
+          soup = BeautifulSoup(r.text, "html.parser")
+
+          if "COBQUECURA" not in " ".join(soup.stripped_strings).upper():
+              raise RuntimeError("La página no corresponde a Cobquecura.")
+
+          filas = []
+          for tr in soup.find_all("tr"):
+              celdas = tr.find_all(["td", "th"], recursive=False)
+              if not celdas:
+                  continue
+              primera = " ".join(celdas[0].stripped_strings)
+              m = re.match(r"^\s*(\d{1,2})\s+([A-Za-zÁÉÍÓÚáéíóú])\b", primera)
+              if not m:
+                  continue
+              contenido = " ".join(tr.stripped_strings)
+              horas = re.findall(r"\b\d{1,2}:\d{2}\s*h\b", contenido)
+              alturas = re.findall(r"\b\d+(?:[,.]\d+)?\s*m\b", contenido)
+              if len(horas) == 6 and len(alturas) == 4:
+                  filas.append({
+                      "dia": int(m.group(1)),
+                      "letra": m.group(2).upper(),
+                      "contenido": contenido,
+                      "horas": [x.replace(" h", "") for x in horas],
+                      "alturas": [
+                          float(x.lower().replace(" m", "").replace(",", "."))
+                          for x in alturas
+                      ]
+                  })
+
+          inicio = [
+              i for i, f in enumerate(filas)
+              if f["dia"] == hoy.day and f["letra"] == letras[hoy.weekday()]
+          ]
+          if len(inicio) != 1:
+              raise RuntimeError(
+                  f"No se encontró una única fila para hoy {hoy}; "
+                  f"coincidencias: {len(inicio)}. No se guardaron datos."
+              )
+
+          seleccion = filas[inicio[0]:inicio[0] + 7]
+          if len(seleccion) < 7:
+              raise RuntimeError("La tabla no ofrece siete días completos.")
+
+          dias = []
+          for i, f in enumerate(seleccion):
+              fecha = hoy + timedelta(days=i)
+              if f["dia"] != fecha.day or f["letra"] != letras[fecha.weekday()]:
+                  raise RuntimeError(
+                      f"Secuencia inesperada: se esperaba {fecha}, "
+                      f"se encontró día {f['dia']} ({f['letra']})."
+                  )
+              h, a = f["horas"], f["alturas"]
+              dias.append({
+                  "date": fecha.isoformat(),
+                  "sunrise": h[0],
+                  "sunset": h[1],
+                  "tides": [
+                      {"time": h[2], "height_m": a[0]},
+                      {"time": h[3], "height_m": a[1]},
+                      {"time": h[4], "height_m": a[2]},
+                      {"time": h[5], "height_m": a[3]}
+                  ]
+              })
+
+          salida = Path("docs/data/tides.json")
+          salida.parent.mkdir(parents=True, exist_ok=True)
+          datos = {
+              "schema_version": 1,
+              "location": "Cobquecura, Ñuble, Chile",
+              "source": url,
+              "updated_at_chile": datetime.now(tz).isoformat(),
+              "window_days": 7,
+              "note": "Datos extraídos automáticamente; verificar con la fuente.",
+              "days": dias
+          }
+          salida.write_text(
+              json.dumps(datos, ensure_ascii=False, indent=2) + "\n",
+              encoding="utf-8"
+          )
+          print("ÉXITO: siete días de mareas validados.")
+          for d in dias:
+              print(d["date"], d["tides"])
+
+      - name: Guardar solo los datos de mareas
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/data/tides.json
+          if git diff --cached --quiet; then
+            echo "No hay cambios nuevos en las mareas."
+          else
+            git commit -m "Actualizar tabla de mareas de Cobquecura"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
