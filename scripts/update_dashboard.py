@@ -180,6 +180,80 @@ def daily_tp_from_netcdf(path: Path):
 
 
 
+def archive_forecast_snapshot(path: Path, retrieved_at: datetime) -> Path:
+    """Guarda una copia compacta del pronóstico recibido de Copernicus."""
+    archive_dir = DOCS_DATA / "forecast_snapshots"
+    archive_dir.mkdir(parents=True, exist_ok=True)
+
+    with xr.open_dataset(path) as ds:
+        required = ["VTPK", "VHM0", "VMDR"]
+        missing = [v for v in required if v not in ds]
+        if missing:
+            raise RuntimeError(
+                f"Faltan variables para archivar: {', '.join(missing)}"
+            )
+
+        if "time" not in ds["VTPK"].dims:
+            raise RuntimeError("El pronóstico no contiene tiempos válidos.")
+
+        times = pd.to_datetime(ds["time"].values, utc=True)
+
+        def spatial_mean(variable):
+            da = ds[variable].astype("float64")
+            dims = [d for d in da.dims if d != "time"]
+            return da.mean(dim=dims, skipna=True) if dims else da
+
+        tp = np.asarray(spatial_mean("VTPK").values, dtype=float).reshape(-1)
+        hs = np.asarray(spatial_mean("VHM0").values, dtype=float).reshape(-1)
+
+        direction = ds["VMDR"].astype("float64")
+        dims = [d for d in direction.dims if d != "time"]
+        radians = np.deg2rad(direction)
+        sin_values = np.sin(radians)
+        cos_values = np.cos(radians)
+        sin_mean = sin_values.mean(dim=dims, skipna=True) if dims else sin_values
+        cos_mean = cos_values.mean(dim=dims, skipna=True) if dims else cos_values
+
+        angles = np.mod(
+            np.rad2deg(np.arctan2(
+                np.asarray(sin_mean.values, dtype=float).reshape(-1),
+                np.asarray(cos_mean.values, dtype=float).reshape(-1)
+            )),
+            360
+        )
+
+    records = []
+    for i, timestamp in enumerate(times):
+        records.append({
+            "valid_time_utc": timestamp.isoformat(),
+            "tp_peak_mean_s": round(float(tp[i]), 3)
+                if np.isfinite(tp[i]) else None,
+            "hs_mean_m": round(float(hs[i]), 3)
+                if np.isfinite(hs[i]) else None,
+            "wave_direction_deg": round(float(angles[i]), 1)
+                if np.isfinite(angles[i]) else None
+        })
+
+    snapshot = {
+        "schema_version": 1,
+        "dataset_id": DATASET_ID,
+        "retrieved_at_utc": retrieved_at.isoformat(),
+        "forecast_reference_time_utc": None,
+        "note": (
+            "Se conserva la hora de descarga y la hora de validez de cada "
+            "dato. La hora original de emisión no se ha confirmado."
+        ),
+        "records": records
+    }
+
+    filename = retrieved_at.strftime("forecast_%Y%m%dT%H%M%SZ.json")
+    output_path = archive_dir / filename
+    write_json(output_path, snapshot)
+    print(f"Pronóstico archivado: {output_path}")
+    return output_path
+
+
+
 def read_json(path: Path, default):
     try:
         return json.loads(path.read_text(encoding="utf-8"))
@@ -231,7 +305,7 @@ def main() -> int:
         end = today + timedelta(days=9)
         nc_path = fetch_forecast(start, end)
         means, counts, metrics = daily_tp_from_netcdf(nc_path)
-
+        archive_forecast_snapshot(nc_path, run_time)
 
         for day_str in sorted(means):
             day_metrics = metrics.get(day_str, {})
