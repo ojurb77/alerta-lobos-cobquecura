@@ -1,0 +1,83 @@
+
+name: Probar extracción de mareas
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-mareas:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Instalar lector HTML
+        run: pip install requests beautifulsoup4
+
+      - name: Consultar tabla de mareas
+        run: |
+          python - <<'PY'
+          import requests
+          from bs4 import BeautifulSoup
+          from datetime import datetime
+          from zoneinfo import ZoneInfo
+          import re
+
+          url = "https://tablademareas.com/cl/nuble/cobquecura"
+
+          response = requests.get(
+              url,
+              timeout=30,
+              headers={"User-Agent": "Mozilla/5.0"}
+          )
+          print("Código HTTP:", response.status_code)
+          response.raise_for_status()
+
+          soup = BeautifulSoup(response.text, "html.parser")
+          text = " ".join(soup.stripped_strings)
+          text = re.sub(r"\s+", " ", text)
+
+          if "TABLA DE MAREAS COBQUECURA" not in text.upper():
+              raise RuntimeError(
+                  "No se encontró la tabla de mareas en la página."
+              )
+
+          print("Página de mareas localizada correctamente.")
+
+          hoy = datetime.now(
+              ZoneInfo("America/Santiago")
+          )
+          print("Fecha local de prueba:", hoy.strftime("%d-%m-%Y"))
+
+          filas = soup.find_all("tr")
+          print("Filas HTML encontradas:", len(filas))
+
+          coincidencias = []
+          for fila in filas:
+              contenido = " ".join(fila.stripped_strings)
+              if re.search(
+                  rf"(?<!\d){hoy.day}(?!\d)", contenido
+              ):
+                  coincidencias.append(contenido)
+
+          if coincidencias:
+              print("Filas candidatas para hoy:")
+              for fila in coincidencias[:5]:
+                  print("-", fila)
+          else:
+              print(
+                  "La página responde, pero no se encontró "
+                  "la fila de hoy como una fila HTML."
+              )
+              print(
+                  "Habrá que revisar cómo está estructurada "
+                  "la tabla antes de automatizarla."
+              )
+
+          print("Prueba de acceso terminada.")
+          PY
