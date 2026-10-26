@@ -51,6 +51,9 @@ jobs:
           git fetch origin "$BRANCH_NAME"
 
           git add docs/data/status.json docs/data/history.json
+          if [ -d docs/data/forecast_snapshots ]; then
+            git add -A docs/data/forecast_snapshots/
+          fi
 
           if ! git diff --cached --quiet; then
             git commit -m "Actualizar datos del panel"
