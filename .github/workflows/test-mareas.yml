@@ -66,8 +66,28 @@ jobs:
 
           fila = coincidencias[0]
           contenido = " ".join(fila.stripped_strings)
-          horas = re.findall(r"\b\d{1,2}:\d{2}\s*h\b", contenido)
-          alturas = re.findall(r"\b\d+(?:[,.]\d+)?\s*m\b", contenido)
+          todos_horarios = re.findall(
+              r"\b\d{1,2}:\d{2}\s*h\b",
+              contenido
+          )
+          alturas = re.findall(
+              r"\b\d+(?:[,.]\d+)?\s*m\b",
+              contenido
+          )
+
+          print("Total de horarios encontrados:", len(todos_horarios))
+          print("Alturas identificadas:", alturas)
+
+          if len(todos_horarios) != 6 or len(alturas) != 4:
+              raise RuntimeError(
+                  "La fila no contiene los seis horarios esperados "
+                  "y las cuatro alturas de marea."
+              )
+
+          horarios_marea = todos_horarios[-4:]
+
+          print("Horarios de marea:", horarios_marea)
+          print("ÉXITO: cuatro horarios y cuatro alturas identificados.")
 
           print("Fila exacta encontrada:")
           print(contenido)
