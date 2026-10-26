@@ -96,6 +96,9 @@ jobs:
                   if f["dia"] == fecha.day
                   and f["letra"] == letras[fecha.weekday()]
               ]
+              if len(coincidencias) == 0 and seleccion:
+                  print(f"La tabla del mes termina en {fecha - timedelta(days=1)}.")
+                  break
               if len(coincidencias) != 1:
                   raise RuntimeError(
                       f"No se encontró una fila única para {fecha}. "
@@ -130,7 +133,7 @@ jobs:
               "location": "Cobquecura, Ñuble, Chile",
               "source": url,
               "updated_at_chile": datetime.now(tz).isoformat(),
-              "window_days": 7,
+              "window_days": len(dias),
               "note": "Datos extraídos automáticamente; verificar con la fuente.",
               "days": dias
           }
