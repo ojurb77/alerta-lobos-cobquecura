@@ -9,7 +9,29 @@
 <p class="small">Valores de oleaje previstos; no determinan por sí solos un varamiento.</p>
 </section><section class="card legend"><h2>Niveles de referencia</h2><div class="legendrow"><span class="dot g"></span><div><b>Verde · Bajo</b><div class="small">Estimación baja</div></div></div><div class="legendrow"><span class="dot y"></span><div><b>Amarillo · Vigilancia</b><div class="small">Desde 45%, candidato</div></div></div><div class="legendrow"><span class="dot o"></span><div><b>Naranja · Elevado</b><div class="small">Criterio por validar</div></div></div><div class="legendrow"><span class="dot r"></span><div><b>Rojo · Muy alto</b><div class="small">Criterio por validar</div></div></div><p class="foot">Colores propuestos, no umbrales oficiales.</p></section><section class="card wide"><h2>Pronóstico y nivel experimental</h2><div class="tablewrap"><table><thead><tr><th>Fecha objetivo</th><th>Tp predictor (s)</th><th>Probabilidad</th><th>Nivel</th><th>Estado</th></tr></thead><tbody id="predictions"><tr><td colspan="5">Cargando…</td></tr></tbody></table></div><p class="foot">La configuración actual genera predicciones solo del 16 de enero al 15 de febrero. Sin predicciones no significa riesgo cero.</p></section><section class="card side"><h2>Estado del sistema</h2><div class="metric"><div class="label">Última ejecución (UTC)</div><div id="updated" class="value">—</div></div><br><div class="metric"><div class="label">Fuente de datos</div><div id="source" class="small">—</div></div><br><div class="metric"><div class="label">Ventana modelada</div><div class="value">16 ene. – 15 feb.</div><div class="small">Fuera de estas fechas no se calculan predicciones actualmente.</div></div></section><section class="card full"><h2>Últimos registros de oleaje</h2><div class="tablewrap"><table><thead><tr>
 <th>Fecha UTC</th><th>Tp medio (s)</th><th>Hs media (m)</th><th>Hs máx. (m)</th><th>Dirección (°)</th><th>Pasos válidos</th><th>Calidad</th>
-</tr></thead><tbody id="waves"><tr><td colspan="7">Cargando…</td></tr></tbody></table></div></section><section class="card full"><h2>Metodología y limitaciones</h2><p><b>Fuente:</b> <a href="https://data.marine.copernicus.eu/product/GLOBAL_ANALYSISFORECAST_WAV_001_027/description" target="_blank" rel="noopener">Copernicus Marine — Global Ocean Waves Analysis and Forecast</a>.</p><p>Modelo experimental con datos históricos 2022–2026 y validación retrospectiva leave-one-year-out. AUC ROC histórica aproximada: 0,789 para ≥5 crías/día. Esto no garantiza el rendimiento con pronósticos reales.</p><p>Durante la temporada deben guardarse los pronósticos disponibles en cada fecha para evaluar anticipación real. La probabilidad no es certeza ni sustituye la observación en terreno.</p></section></div><footer class="foot">Panel experimental · <a href="./data/status.json">Ver datos actuales</a> · <a href="./data/history.json">Ver historial técnico</a></footer></main><script>
+</tr></thead><tbody id="waves"><tr><td colspan="7">Cargando…</td></tr></tbody></table></div></section>
+<section class="card full">
+  <h2>Mareas de Cobquecura · Próximos días</h2>
+  <p class="small">Horarios y alturas publicados por la tabla de mareas. Las alturas se expresan en metros.</p>
+  <div id="tides-updated" class="small">Consultando datos de mareas…</div>
+  <div class="tablewrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Salida del sol</th>
+          <th>Puesta del sol</th>
+          <th>Mareas (hora · altura)</th>
+        </tr>
+      </thead>
+      <tbody id="tides-table">
+        <tr><td colspan="4">Cargando mareas…</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="foot">Fuente: <a href="https://tablademareas.com/cl/nuble/cobquecura" target="_blank" rel="noopener">Tabla de mareas de Cobquecura</a>. Información de referencia; verificar con la fuente. Las mareas por sí solas no determinan el riesgo de varamiento.</p>
+</section>
+<section class="card full"><h2>Metodología y limitaciones</h2><p><b>Fuente:</b> <a href="https://data.marine.copernicus.eu/product/GLOBAL_ANALYSISFORECAST_WAV_001_027/description" target="_blank" rel="noopener">Copernicus Marine — Global Ocean Waves Analysis and Forecast</a>.</p><p>Modelo experimental con datos históricos 2022–2026 y validación retrospectiva leave-one-year-out. AUC ROC histórica aproximada: 0,789 para ≥5 crías/día. Esto no garantiza el rendimiento con pronósticos reales.</p><p>Durante la temporada deben guardarse los pronósticos disponibles en cada fecha para evaluar anticipación real. La probabilidad no es certeza ni sustituye la observación en terreno.</p></section></div><footer class="foot">Panel experimental · <a href="./data/status.json">Ver datos actuales</a> · <a href="./data/history.json">Ver historial técnico</a></footer></main><script>
 const $=id=>document.getElementById(id),esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));function lvl(p){if(p==null)return{name:"SIN DATOS",desc:"No hay probabilidad calculada",color:"",pill:""};if(p>=.7)return{name:"MUY ALTO",desc:"Estimación experimental elevada",color:"red",pill:"bad"};if(p>=.6)return{name:"ELEVADO",desc:"Revisar condiciones y reforzar vigilancia",color:"orange",pill:"bad"};if(p>=.45)return{name:"VIGILANCIA",desc:"Candidato a vigilancia reforzada",color:"yellow",pill:"warn"};return{name:"BAJO",desc:"Estimación baja; no descarta varamientos",color:"green",pill:"ok"}}
 async function load(){try{let r=await fetch("./data/status.json?ts="+Date.now(),{cache:"no-store"});if(!r.ok)throw Error();let d=await r.json();$("today").textContent=new Date().toLocaleDateString("es-CL");$("connection").textContent="● Datos leídos";$("updated").textContent=d.run_timestamp_utc?new Date(d.run_timestamp_utc).toLocaleString("es-CL",{timeZone:"UTC"})+" UTC":"—";$("source").textContent=d.data_source||"—";$("message").textContent=d.message||"Estado actualizado.";let ps=d.predictions||[],p=ps.find(x=>x.target_date===new Date().toISOString().slice(0,10))||ps[0],prob=p&&p.probability_percent!=null?Number(p.probability_percent)/100:null,L=lvl(prob);if(["error","data_incomplete"].includes(d.run_status))L={name:"SIN CONFIRMACIÓN",desc:"Error o datos incompletos: revisar manualmente",color:"",pill:"bad"};else if(d.run_status==="ok_out_of_season"||!p)L={name:"FUERA DE TEMPORADA",desc:"No se emiten predicciones en esta fecha",color:"",pill:""};$("level").textContent=L.name;$("desc").textContent=L.desc;$("lamp").className="lamp "+L.color;$("predictions").innerHTML=ps.length?ps.map(x=>{let a=lvl(x.probability_percent==null?null:Number(x.probability_percent)/100);return '<tr><td>'+esc(x.target_date)+'</td><td>'+esc(x.tp_previous_day_s??"—")+'</td><td>'+esc(x.probability_percent==null?"—":x.probability_percent+"%")+'</td><td><span class="pill '+a.pill+'">'+esc(x.level||a.name)+'</span></td><td>'+esc(x.status||"Calculado")+'</td></tr>'}).join(""):'<tr><td colspan="5">No hay predicciones activas. Fuera de temporada esto es esperado; no equivale a riesgo cero.</td></tr>';let ws=d.daily_wave_data||[],last=ws.filter(x=>x.coverage_ok).slice(-1)[0]||ws.slice(-1)[0];$("tp").textContent=last&&last.tp_peak_mean_s!=null?Number(last.tp_peak_mean_s).toFixed(2)+" s":"—";
 $("coverage").textContent=last?last.valid_3h_steps+"/8":"—";
@@ -18,4 +40,36 @@ $("hs-max").textContent=last&&last.hs_max_m!=null?Number(last.hs_max_m).toFixed(
 $("wave-direction").textContent=last&&last.wave_direction_deg!=null?Number(last.wave_direction_deg).toFixed(0)+"°":"—";
 $("wave-date").textContent="Fecha: "+(last?last.date_utc:"sin datos");$("waves").innerHTML=ws.length?ws.slice(-10).reverse().map(x=>'<tr><td>'+esc(x.date_utc)+'</td><td>'+
 esc(x.tp_peak_mean_s??"—")+'</td><td>'+esc(x.hs_mean_m??"—")+'</td><td>'+esc(x.hs_max_m??"—")+'</td><td>'+esc(x.wave_direction_deg??"—")+'</td><td>'+esc(x.valid_3h_steps??"—")
-+'/8</td><td><span class="pill '+(x.coverage_ok?"ok":"warn")+'">'+(x.coverage_ok?"Suficiente":"Incompleta")+'</span></td></tr>').join(""):'<tr><td colspan="7">Sin datos disponibles.</td></tr>'}catch(e){$("connection").textContent="● Error de conexión";$("level").textContent="SIN DATOS";$("desc").textContent="No se puede confirmar el estado";$("message").textContent="No se pudo leer el estado. No interpretar como riesgo bajo.";$("predictions").innerHTML='<tr><td colspan="5">Error al cargar los datos.</td></tr>'}}load();</script></body></html>
++'/8</td><td><span class="pill '+(x.coverage_ok?"ok":"warn")+'">'+(x.coverage_ok?"Suficiente":"Incompleta")+'</span></td></tr>').join(""):'<tr><td colspan="7">Sin datos disponibles.</td></tr>'}catch(e){$("connection").textContent="● Error de conexión";$("level").textContent="SIN DATOS";$("desc").textContent="No se puede confirmar el estado";$("message").textContent="No se pudo leer el estado. No interpretar como riesgo bajo.";$("predictions").innerHTML='<tr><td colspan="5">Error al cargar los datos.</td></tr>'}
+}
+async function loadTides(){
+  const body=$("tides-table");
+  const updated=$("tides-updated");
+  try{
+    const r=await fetch("./data/tides.json?ts="+Date.now(),{cache:"no-store"});
+    if(!r.ok) throw Error("No se pudo leer tides.json");
+    const d=await r.json();
+    const days=d.days||[];
+    updated.textContent="Actualizado: "+(d.updated_at_chile||"fecha no disponible");
+    if(!days.length){
+      body.innerHTML='<tr><td colspan="4">No hay datos de mareas disponibles.</td></tr>';
+      return;
+    }
+    body.innerHTML=days.map(day=>{
+      const date=day.date.split("-").reverse().join("-");
+      const tides=(day.tides||[]).map(t=>
+        esc(t.time)+" · "+esc(t.height_m)+" m"
+      ).join("<br>");
+      return "<tr><td>"+esc(date)+"</td><td>"+esc(day.sunrise||"—")+
+        "</td><td>"+esc(day.sunset||"—")+"</td><td>"+
+        (tides||"Sin datos")+"</td></tr>";
+    }).join("");
+  }catch(e){
+    updated.textContent="No se pudieron cargar las mareas.";
+    body.innerHTML='<tr><td colspan="4">Datos no disponibles. Consulta la fuente original.</td></tr>';
+  }
+}
+load();
+loadTides();
+</script>
+</body></html>
