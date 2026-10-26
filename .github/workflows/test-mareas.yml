@@ -84,22 +84,15 @@ jobs:
                   "y las cuatro alturas de marea."
               )
 
+     
           horarios_marea = todos_horarios[-4:]
-
-          print("Horarios de marea:", horarios_marea)
-          print("ÉXITO: cuatro horarios y cuatro alturas identificados.")
 
           print("Fila exacta encontrada:")
           print(contenido)
-          print("Horarios de marea encontrados:", len(horas))
-          print("Alturas encontradas:", len(alturas))
-
-          if len(horas) != 4 or len(alturas) < 4:
-              raise RuntimeError(
-                  "La fila no contiene cuatro horarios y al menos "
-                  "cuatro alturas. No se consideran datos validados."
-              )
-
+          print("Horarios de marea:", horarios_marea)
+          print("Alturas identificadas:", alturas)
+          print("ÉXITO: cuatro horarios y cuatro alturas identificados.")
+               
           print("PRUEBA CORRECTA: fila diaria identificada.")
           print("Todavía no se han modificado los datos del panel.")
           PY
