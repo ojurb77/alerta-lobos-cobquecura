@@ -23,13 +23,12 @@ jobs:
         run: |
           python - <<'PY'
           import requests
+          import re
           from bs4 import BeautifulSoup
           from datetime import datetime
           from zoneinfo import ZoneInfo
-          import re
 
           url = "https://tablademareas.com/cl/nuble/cobquecura"
-
           response = requests.get(
               url,
               timeout=30,
@@ -39,45 +38,49 @@ jobs:
           response.raise_for_status()
 
           soup = BeautifulSoup(response.text, "html.parser")
-          text = " ".join(soup.stripped_strings)
-          text = re.sub(r"\s+", " ", text)
+          texto = " ".join(soup.stripped_strings)
 
-          if "TABLA DE MAREAS COBQUECURA" not in text.upper():
-              raise RuntimeError(
-                  "No se encontró la tabla de mareas en la página."
-              )
+          if "COBQUECURA" not in texto.upper():
+              raise RuntimeError("No se reconoce la página de Cobquecura.")
 
-          print("Página de mareas localizada correctamente.")
-
-          hoy = datetime.now(
-              ZoneInfo("America/Santiago")
-          )
-          print("Fecha local de prueba:", hoy.strftime("%d-%m-%Y"))
-
-          filas = soup.find_all("tr")
-          print("Filas HTML encontradas:", len(filas))
+          hoy = datetime.now(ZoneInfo("America/Santiago"))
+          dia = hoy.day
+          print("Fecha local:", hoy.strftime("%d-%m-%Y"))
 
           coincidencias = []
-          for fila in filas:
-              contenido = " ".join(fila.stripped_strings)
-              if re.search(
-                  rf"(?<!\d){hoy.day}(?!\d)", contenido
-              ):
-                  coincidencias.append(contenido)
+          for fila in soup.find_all("tr"):
+              celdas = fila.find_all(["td", "th"], recursive=False)
+              if not celdas:
+                  continue
 
-          if coincidencias:
-              print("Filas candidatas para hoy:")
-              for fila in coincidencias[:5]:
-                  print("-", fila)
-          else:
-              print(
-                  "La página responde, pero no se encontró "
-                  "la fila de hoy como una fila HTML."
-              )
-              print(
-                  "Habrá que revisar cómo está estructurada "
-                  "la tabla antes de automatizarla."
+              primera = " ".join(celdas[0].stripped_strings)
+              if re.match(rf"^\s*0?{dia}(?:\s|$)", primera):
+                  coincidencias.append(fila)
+
+          if len(coincidencias) != 1:
+              raise RuntimeError(
+                  f"Se esperaba una fila para el día {dia}; "
+                  f"se encontraron {len(coincidencias)}. "
+                  "Hay que revisar la estructura de la tabla."
               )
 
-          print("Prueba de acceso terminada.")
+          fila = coincidencias[0]
+          contenido = " ".join(fila.stripped_strings)
+          horas = re.findall(r"\b\d{1,2}:\d{2}\s*h\b", contenido)
+          alturas = re.findall(r"\b\d+(?:[,.]\d+)?\s*m\b", contenido)
+
+          print("Fila exacta encontrada:")
+          print(contenido)
+          print("Horarios de marea encontrados:", len(horas))
+          print("Alturas encontradas:", len(alturas))
+
+          if len(horas) != 4 or len(alturas) < 4:
+              raise RuntimeError(
+                  "La fila no contiene cuatro horarios y al menos "
+                  "cuatro alturas. No se consideran datos validados."
+              )
+
+          print("PRUEBA CORRECTA: fila diaria identificada.")
+          print("Todavía no se han modificado los datos del panel.")
           PY
+
