@@ -89,6 +89,7 @@ jobs:
               )
 
           seleccion = filas[inicio[0]:inicio[0] + 7]
+          print("Diagnóstico de filas:", [(f["dia"], f["letra"], len(f["horas"]), len(f["alturas"])) for f in filas])
           if len(seleccion) < 7:
               raise RuntimeError("La tabla no ofrece siete días completos.")
 
