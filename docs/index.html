@@ -119,9 +119,26 @@ function drawTidesChart(days){
       return {...t,x,y,kind};
     });
 
-    const path=pts.map((p,i)=>
-      (i?"L":"M")+p.x.toFixed(1)+" "+p.y.toFixed(1)
-    ).join(" ");
+    
+    const path=pts.map((p,i)=>{
+      if(i===0){
+        return "M "+p.x+" "+p.y;
+      }
+
+      const prev=pts[i-1];
+      const before=pts[Math.max(0,i-2)];
+      const next=pts[Math.min(pts.length-1,i+1)];
+      const tension=0.25;
+
+      const cp1x=prev.x+(p.x-before.x)*tension;
+      const cp1y=prev.y+(p.y-before.y)*tension;
+      const cp2x=p.x-(next.x-prev.x)*tension;
+      const cp2y=p.y-(next.y-prev.y)*tension;
+
+      return "C "+cp1x+" "+cp1y+", "+
+        cp2x+" "+cp2y+", "+p.x+" "+p.y;
+    }).join(" ");
+
 
     const labels=pts.map((p,i)=>{
       const color=p.kind==="low"?"#dc2626":
@@ -153,9 +170,10 @@ function drawTidesChart(days){
         val.toFixed(1)+'</text>';
     }).join("");
 
-    const tickLabels=pts.map(p=>
-      '<text x="'+p.x+'" y="239" text-anchor="middle" '+
-      'font-size="10" fill="currentColor">'+
+    const tickLabels=pts.map((p,i)=>
+      '<text x="'+p.x+'" y="239" text-anchor="'+
+      (i===0?"start":i===pts.length-1?"end":"middle")+
+      '" font-size="10" fill="currentColor">'+
       esc(p.time)+'</text>'
     ).join("");
 
