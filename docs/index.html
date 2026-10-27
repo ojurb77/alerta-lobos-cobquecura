@@ -55,15 +55,29 @@ async function loadTides(){
       body.innerHTML='<tr><td colspan="4">No hay datos de mareas disponibles.</td></tr>';
       return;
     }
+    
     body.innerHTML=days.map(day=>{
       const date=day.date.split("-").reverse().join("-");
-      const tides=(day.tides||[]).map(t=>
-        esc(t.time)+" · "+esc(t.height_m)+" m"
-      ).join("<br>");
+      const tides=day.tides||[];
+      const heights=tides.map(t=>Number(t.height_m)).filter(Number.isFinite);
+      const maxHeight=heights.length?Math.max(...heights):null;
+      const minHeight=heights.length?Math.min(...heights):null;
+
+      const tidesHtml=tides.map(t=>{
+        const height=Number(t.height_m);
+        const isMax=maxHeight!==null&&height===maxHeight;
+        const isMin=minHeight!==null&&height===minHeight;
+        const color=(isMax||isMin)?' style="color:#dc2626;font-weight:700"':"";
+        const label=isMax?" (MÁXIMA)":isMin?" (MÍNIMA)":"";
+        return '<span'+color+'>'+esc(t.time)+" · "+
+          esc(t.height_m)+' m'+label+'</span>';
+      }).join("<br>");
+
       return "<tr><td>"+esc(date)+"</td><td>"+esc(day.sunrise||"—")+
         "</td><td>"+esc(day.sunset||"—")+"</td><td>"+
-        (tides||"Sin datos")+"</td></tr>";
+        (tidesHtml||"Sin datos")+"</td></tr>";
     }).join("");
+
   }catch(e){
     updated.textContent="No se pudieron cargar las mareas.";
     body.innerHTML='<tr><td colspan="4">Datos no disponibles. Consulta la fuente original.</td></tr>';
