@@ -14,6 +14,9 @@
   <h2>Mareas de Cobquecura · Próximos días</h2>
   <p class="small">Horarios y alturas publicados por la tabla de mareas. Las alturas se expresan en metros.</p>
   <div id="tides-updated" class="small">Consultando datos de mareas…</div>
+   <div id="tides-chart" style="margin:16px 0 22px">
+    <p class="small">Preparando gráfica de mareas…</p>
+  </div>
   <div class="tablewrap">
     <table>
       <thead>
@@ -42,6 +45,139 @@ $("wave-date").textContent="Fecha: "+(last?last.date_utc:"sin datos");$("waves")
 esc(x.tp_peak_mean_s??"—")+'</td><td>'+esc(x.hs_mean_m??"—")+'</td><td>'+esc(x.hs_max_m??"—")+'</td><td>'+esc(x.wave_direction_deg??"—")+'</td><td>'+esc(x.valid_3h_steps??"—")
 +'/8</td><td><span class="pill '+(x.coverage_ok?"ok":"warn")+'">'+(x.coverage_ok?"Suficiente":"Incompleta")+'</span></td></tr>').join(""):'<tr><td colspan="7">Sin datos disponibles.</td></tr>'}catch(e){$("connection").textContent="● Error de conexión";$("level").textContent="SIN DATOS";$("desc").textContent="No se puede confirmar el estado";$("message").textContent="No se pudo leer el estado. No interpretar como riesgo bajo.";$("predictions").innerHTML='<tr><td colspan="5">Error al cargar los datos.</td></tr>'}
 }
+
+  
+function drawTidesChart(days){
+  const container=$("tides-chart");
+  if(!container)return;
+
+  if(!days.length){
+    container.innerHTML='<p class="small">No hay datos para graficar.</p>';
+    return;
+  }
+
+  container.innerHTML=
+    '<label for="tide-day"><b>Gráfica del día:</b></label> '+
+    '<select id="tide-day" style="max-width:100%;margin:8px 0"></select>'+
+    '<div id="tide-plot"></div>'+
+    '<p class="small">🔴 Bajamar · 🩵 Pleamar. '+
+    'Alturas en metros; línea orientativa entre horarios.</p>';
+
+  const select=$("tide-day");
+  select.innerHTML=days.map((day,i)=>
+    '<option value="'+i+'">'+
+    esc(day.date.split("-").reverse().join("-"))+
+    '</option>'
+  ).join("");
+
+  function render(){
+    const day=days[Number(select.value)];
+    const tides=(day.tides||[]).map(t=>({
+      time:String(t.time||""),
+      height:Number(String(t.height_m??"").replace(",",".")),
+      minutes:(()=>{
+        const m=String(t.time||"").match(/(\d{1,2}):(\d{2})/);
+        return m?Number(m[1])*60+Number(m[2]):null;
+      })()
+    })).filter(t=>Number.isFinite(t.height));
+
+    const plot=$("tide-plot");
+    if(!tides.length){
+      plot.innerHTML='<p>No hay alturas válidas para este día.</p>';
+      return;
+    }
+
+    tides.sort((a,b)=>
+      a.minutes===null||b.minutes===null?0:a.minutes-b.minutes
+    );
+
+    const values=tides.map(t=>t.height);
+    const lo=Math.min(...values),hi=Math.max(...values);
+    const span=hi-lo||1;
+    const left=48,right=672,top=48,bottom=210;
+    const times=tides.map(t=>t.minutes);
+    const useTime=times.every(t=>t!==null)&&
+      Math.max(...times)>Math.min(...times);
+    const minTime=useTime?Math.min(...times):0;
+    const maxTime=useTime?Math.max(...times):tides.length-1;
+
+    const pts=tides.map((t,i)=>{
+      const x=left+(right-left)*(useTime?
+        (t.minutes-minTime)/(maxTime-minTime):
+        i/Math.max(1,tides.length-1));
+      const y=bottom-(bottom-top)*(t.height-lo+span*.12)/(span*1.24);
+      let kind="point";
+      if(tides.length>1){
+        const prev=tides[i-1],next=tides[i+1];
+        if((!prev||t.height>=prev.height)&&
+           (!next||t.height>=next.height)&&
+           (prev||next))kind="high";
+        else if((!prev||t.height<=prev.height)&&
+                (!next||t.height<=next.height)&&
+                (prev||next))kind="low";
+      }
+      return {...t,x,y,kind};
+    });
+
+    const path=pts.map((p,i)=>
+      (i?"L":"M")+p.x.toFixed(1)+" "+p.y.toFixed(1)
+    ).join(" ");
+
+    const labels=pts.map((p,i)=>{
+      const color=p.kind==="low"?"#dc2626":
+        p.kind==="high"?"#38bdf8":"#64748b";
+      const labelY=p.kind==="low"?p.y+30:p.y-17;
+      const anchor=p.x<95?"start":
+        p.x>625?"end":"middle";
+      const labelX=p.x<95?p.x+4:p.x>625?p.x-4:p.x;
+      return '<circle cx="'+p.x+'" cy="'+p.y+
+        '" r="5" fill="'+color+'" stroke="white" stroke-width="1.5"/>'+
+        '<text x="'+labelX+'" y="'+labelY+
+        '" text-anchor="'+anchor+
+        '" font-size="12" font-weight="700" fill="'+color+'">'+
+        esc(p.time||"Hora —")+'</text>'+
+        '<text x="'+labelX+'" y="'+(labelY+14)+
+        '" text-anchor="'+anchor+
+        '" font-size="12" font-weight="700" fill="'+color+'">'+
+        p.height.toFixed(2)+' m</text>';
+    }).join("");
+
+    const grid=[0,.5,1].map(f=>{
+      const y=bottom-f*(bottom-top);
+      const val=lo+f*span;
+      return '<line x1="'+left+'" y1="'+y+
+        '" x2="'+right+'" y2="'+y+
+        '" stroke="currentColor" stroke-opacity=".16"/>'+
+        '<text x="'+(left-7)+'" y="'+(y+4)+
+        '" text-anchor="end" font-size="11" fill="currentColor">'+
+        val.toFixed(1)+'</text>';
+    }).join("");
+
+    const tickLabels=pts.map(p=>
+      '<text x="'+p.x+'" y="239" text-anchor="middle" '+
+      'font-size="10" fill="currentColor">'+
+      esc(p.time)+'</text>'
+    ).join("");
+
+    plot.innerHTML=
+      '<div style="width:100%;overflow-x:auto">'+
+      '<svg viewBox="0 0 700 260" role="img" '+
+      'aria-label="Gráfica de alturas y horarios de marea" '+
+      'style="width:100%;min-width:320px;height:auto">'+
+      grid+
+      '<path d="'+path+
+      '" fill="none" stroke="#63c7ed" stroke-width="2.5" '+
+      'stroke-linejoin="round" stroke-linecap="round"/>'+
+      labels+tickLabels+
+      '<text x="360" y="256" text-anchor="middle" '+
+      'font-size="11" fill="currentColor">Hora local · altura en metros</text>'+
+      '</svg></div>';
+  }
+
+  select.addEventListener("change",render);
+  render();
+}
+  
 async function loadTides(){
   const body=$("tides-table");
   const updated=$("tides-updated");
@@ -50,6 +186,7 @@ async function loadTides(){
     if(!r.ok) throw Error("No se pudo leer tides.json");
     const d=await r.json();
     const days=d.days||[];
+    drawTidesChart(days);
     updated.textContent="Actualizado: "+(d.updated_at_chile||"fecha no disponible");
     if(!days.length){
       body.innerHTML='<tr><td colspan="4">No hay datos de mareas disponibles.</td></tr>';
