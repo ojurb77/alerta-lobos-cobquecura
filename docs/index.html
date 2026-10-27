@@ -222,7 +222,11 @@ async function loadTides(){
         const height=Number(t.height_m);
         const isMax=maxHeight!==null&&height===maxHeight;
         const isMin=minHeight!==null&&height===minHeight;
-        const color=(isMax||isMin)?' style="color:#dc2626;font-weight:700"':"";
+        const color=isMax
+          ? ' style="color:#38bdf8;font-weight:700"'
+          : isMin
+            ? ' style="color:#dc2626;font-weight:700"'
+            : "";
         const label=isMax?" (MÁXIMA)":isMin?" (MÍNIMA)":"";
         return '<span'+color+'>'+esc(t.time)+" · "+
           esc(t.height_m)+' m'+label+'</span>';
