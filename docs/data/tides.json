@@ -2,30 +2,164 @@
   "schema_version": 1,
   "location": "Cobquecura, Ñuble, Chile",
   "source": "https://tablademareas.com/cl/nuble/cobquecura",
-  "updated_at_chile": "2026-10-31T06:50:12.619312-03:00",
-  "window_days": 1,
+  "updated_at_chile": "2026-11-01T06:53:35.252351-03:00",
+  "window_days": 7,
   "note": "Datos extraídos automáticamente; verificar con la fuente.",
   "days": [
     {
-      "date": "2026-10-31",
-      "sunrise": "6:47",
-      "sunset": "20:22",
+      "date": "2026-11-01",
+      "sunrise": "6:46",
+      "sunset": "20:23",
       "tides": [
         {
-          "time": "2:43",
+          "time": "3:49",
           "height_m": 1.6
         },
         {
-          "time": "9:56",
+          "time": "11:14",
           "height_m": 0.4
         },
         {
-          "time": "15:37",
+          "time": "17:06",
+          "height_m": 0.9
+        },
+        {
+          "time": "22:13",
+          "height_m": 0.6
+        }
+      ]
+    },
+    {
+      "date": "2026-11-02",
+      "sunrise": "6:45",
+      "sunset": "20:24",
+      "tides": [
+        {
+          "time": "5:07",
+          "height_m": 1.5
+        },
+        {
+          "time": "12:32",
+          "height_m": 0.4
+        },
+        {
+          "time": "18:38",
           "height_m": 1.0
         },
         {
-          "time": "20:54",
+          "time": "23:54",
+          "height_m": 0.6
+        }
+      ]
+    },
+    {
+      "date": "2026-11-03",
+      "sunrise": "6:44",
+      "sunset": "20:25",
+      "tides": [
+        {
+          "time": "6:27",
+          "height_m": 1.4
+        },
+        {
+          "time": "13:37",
+          "height_m": 0.4
+        },
+        {
+          "time": "19:49",
+          "height_m": 1.1
+        }
+      ]
+    },
+    {
+      "date": "2026-11-04",
+      "sunrise": "6:43",
+      "sunset": "20:26",
+      "tides": [
+        {
+          "time": "1:25",
+          "height_m": 0.6
+        },
+        {
+          "time": "7:39",
+          "height_m": 1.4
+        },
+        {
+          "time": "14:28",
+          "height_m": 0.3
+        },
+        {
+          "time": "20:42",
+          "height_m": 1.3
+        }
+      ]
+    },
+    {
+      "date": "2026-11-05",
+      "sunrise": "6:42",
+      "sunset": "20:27",
+      "tides": [
+        {
+          "time": "2:37",
           "height_m": 0.5
+        },
+        {
+          "time": "8:39",
+          "height_m": 1.4
+        },
+        {
+          "time": "15:10",
+          "height_m": 0.3
+        },
+        {
+          "time": "21:26",
+          "height_m": 1.4
+        }
+      ]
+    },
+    {
+      "date": "2026-11-06",
+      "sunrise": "6:41",
+      "sunset": "20:28",
+      "tides": [
+        {
+          "time": "3:35",
+          "height_m": 0.4
+        },
+        {
+          "time": "9:30",
+          "height_m": 1.4
+        },
+        {
+          "time": "15:47",
+          "height_m": 0.3
+        },
+        {
+          "time": "22:05",
+          "height_m": 1.5
+        }
+      ]
+    },
+    {
+      "date": "2026-11-07",
+      "sunrise": "6:40",
+      "sunset": "20:29",
+      "tides": [
+        {
+          "time": "4:24",
+          "height_m": 0.4
+        },
+        {
+          "time": "10:14",
+          "height_m": 1.3
+        },
+        {
+          "time": "16:21",
+          "height_m": 0.3
+        },
+        {
+          "time": "22:41",
+          "height_m": 1.6
         }
       ]
     }
