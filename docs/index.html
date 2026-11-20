@@ -116,45 +116,40 @@ header .right {
 }
 
 
-/* Fondo marino continuo de Cobquecura */
+
+/* Paisaje único: una sola fotografía */
 body {
   background-color: #c7b7a5;
   background-image:
     linear-gradient(
       to bottom,
-      rgba(255,255,255,0) 0px,
-      rgba(255,255,255,0) 450px,
-      rgba(242,246,250,.18) 850px,
-      rgba(199,183,165,.82) 1500px,
-      #c7b7a5 2200px
+      transparent 0px,
+      transparent 420px,
+      rgba(199,183,165,.25) 800px,
+      #c7b7a5 1700px
     ),
     url("fondo-cobquecura.png");
-  background-repeat: no-repeat;
-  background-position: center top;
-  background-size: 100% 2200px, 100% auto;
-  background-attachment: scroll;
+  background-repeat: no-repeat, no-repeat;
+  background-position: center top, center top;
+  background-size: 100% 1700px, 100% auto;
 }
 
-/* El encabezado usa la misma imagen */
+/* Encabezado transparente sobre el mismo paisaje */
 header {
-  background-image:
-    linear-gradient(
-      90deg,
-      rgba(10,57,88,.92) 0%,
-      rgba(17,79,112,.70) 38%,
-      rgba(17,79,112,.05) 78%
-    ),
-    url("fondo-cobquecura.png");
-  background-position: center top;
-  background-size: 100% auto;
+  background-image: linear-gradient(
+    90deg,
+    rgba(10,57,88,.92) 0%,
+    rgba(17,79,112,.70) 38%,
+    rgba(17,79,112,.05) 78%
+  );
+  background-color: transparent;
 }
 
-/* Eliminar la separación artificial */
 header::after {
   display: none;
 }
 
-/* Tarjetas legibles sobre el paisaje */
+/* Tarjetas legibles */
 .card {
   background: rgba(255,255,255,.94);
 }
@@ -163,27 +158,22 @@ header::after {
   background: rgba(255,247,223,.96);
 }
 
-
-/* Fondo marino y encuadre corregido para celulares */
-@media (max-width: 600px) {
-
+/* Adaptación exclusiva para celulares */
+@media (max-width:600px) {
   body {
-    background-size: 100% 1800px, auto 950px;
     background-position: center top, 65% top;
+    background-size: 100% 1500px, auto 620px;
   }
 
   header {
-    background-image:
-      linear-gradient(
-        90deg,
-        rgba(9,49,77,.94) 0%,
-        rgba(9,49,77,.78) 45%,
-        rgba(9,49,77,.10) 100%
-      ),
-      url("lobito-panoramico.png");
-
-    background-size: cover;
-    background-position: center, 66% center;
+    min-height: 290px;
+    padding: 24px 18px 46px;
+    background-image: linear-gradient(
+      90deg,
+      rgba(9,49,77,.94) 0%,
+      rgba(9,49,77,.78) 45%,
+      rgba(9,49,77,.10) 100%
+    );
   }
 
   .card {
