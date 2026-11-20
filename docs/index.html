@@ -86,7 +86,8 @@ header .right {
   header {
     min-height: 290px;
     padding: 24px 18px 46px;
-    background-position: center, 66% center;
+    background-position: center, right top;
+    background-size: 100% 100%, auto 440px;
     background-image:
       linear-gradient(
         90deg,
@@ -162,7 +163,7 @@ header::after {
 @media (max-width:600px) {
   body {
     background-position: center top, 65% top;
-    background-size: 100% 1500px, auto 620px;
+    background-size: 100% 1500px, auto 440px;
   }
 
   header {
@@ -175,6 +176,11 @@ header::after {
       rgba(9,49,77,.10) 100%
     );
   }
+
+  .card {
+    background: rgba(255,255,255,.96);
+  }
+}
 
   .card {
     background: rgba(255,255,255,.96);
