@@ -115,6 +115,78 @@ header .right {
   }
 }
 
+
+/* Fondo marino continuo de Cobquecura */
+body {
+  background-color: #c7b7a5;
+  background-image:
+    linear-gradient(
+      to bottom,
+      rgba(255,255,255,0) 0px,
+      rgba(255,255,255,0) 450px,
+      rgba(242,246,250,.18) 850px,
+      rgba(199,183,165,.82) 1500px,
+      #c7b7a5 2200px
+    ),
+    url("fondo-cobquecura.png");
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: 100% 2200px, 100% auto;
+  background-attachment: scroll;
+}
+
+/* El encabezado usa la misma imagen */
+header {
+  background-image:
+    linear-gradient(
+      90deg,
+      rgba(10,57,88,.92) 0%,
+      rgba(17,79,112,.70) 38%,
+      rgba(17,79,112,.05) 78%
+    ),
+    url("fondo-cobquecura.png");
+  background-position: center top;
+  background-size: 100% auto;
+}
+
+/* Eliminar la separación artificial */
+header::after {
+  display: none;
+}
+
+/* Tarjetas legibles sobre el paisaje */
+.card {
+  background: rgba(255,255,255,.94);
+}
+
+.notice {
+  background: rgba(255,247,223,.96);
+}
+
+/* Adaptación para celulares */
+@media (max-width:600px) {
+  body {
+    background-size: 100% 1800px, auto 950px;
+    background-position: center top, 65% top;
+  }
+
+  header {
+    background-image:
+      linear-gradient(
+        90deg,
+        rgba(9,49,77,.92),
+        rgba(9,49,77,.70) 48%,
+        rgba(9,49,77,.08)
+      ),
+      url("fondo-cobquecura.png");
+    background-size: auto 950px;
+    background-position: 65% top;
+  }
+
+  .card {
+    background: rgba(255,255,255,.96);
+  }
+}
 </style></head><body><header>
   <div class="top">
     <div class="header-title">
