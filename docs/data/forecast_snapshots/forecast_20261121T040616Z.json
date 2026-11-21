@@ -1,0 +1,447 @@
+{
+  "schema_version": 1,
+  "dataset_id": "cmems_mod_glo_wav_anfc_0.083deg_PT3H-i",
+  "retrieved_at_utc": "2026-11-21T04:06:16.597996+00:00",
+  "forecast_reference_time_utc": null,
+  "note": "Se conserva la hora de descarga y la hora de validez de cada dato. La hora original de emisión no se ha confirmado.",
+  "records": [
+    {
+      "valid_time_utc": "2026-11-21T00:00:00+00:00",
+      "tp_peak_mean_s": 14.456,
+      "hs_mean_m": 1.814,
+      "wave_direction_deg": 261.8
+    },
+    {
+      "valid_time_utc": "2026-11-21T03:00:00+00:00",
+      "tp_peak_mean_s": 15.145,
+      "hs_mean_m": 1.845,
+      "wave_direction_deg": 262.3
+    },
+    {
+      "valid_time_utc": "2026-11-21T06:00:00+00:00",
+      "tp_peak_mean_s": 16.468,
+      "hs_mean_m": 1.857,
+      "wave_direction_deg": 263.4
+    },
+    {
+      "valid_time_utc": "2026-11-21T09:00:00+00:00",
+      "tp_peak_mean_s": 19.736,
+      "hs_mean_m": 1.877,
+      "wave_direction_deg": 264.2
+    },
+    {
+      "valid_time_utc": "2026-11-21T12:00:00+00:00",
+      "tp_peak_mean_s": 19.425,
+      "hs_mean_m": 1.923,
+      "wave_direction_deg": 264.5
+    },
+    {
+      "valid_time_utc": "2026-11-21T15:00:00+00:00",
+      "tp_peak_mean_s": 19.168,
+      "hs_mean_m": 2.01,
+      "wave_direction_deg": 262.8
+    },
+    {
+      "valid_time_utc": "2026-11-21T18:00:00+00:00",
+      "tp_peak_mean_s": 18.745,
+      "hs_mean_m": 2.313,
+      "wave_direction_deg": 255.8
+    },
+    {
+      "valid_time_utc": "2026-11-21T21:00:00+00:00",
+      "tp_peak_mean_s": 17.829,
+      "hs_mean_m": 2.59,
+      "wave_direction_deg": 251.2
+    },
+    {
+      "valid_time_utc": "2026-11-22T00:00:00+00:00",
+      "tp_peak_mean_s": 17.201,
+      "hs_mean_m": 2.802,
+      "wave_direction_deg": 247.4
+    },
+    {
+      "valid_time_utc": "2026-11-22T03:00:00+00:00",
+      "tp_peak_mean_s": 16.431,
+      "hs_mean_m": 2.946,
+      "wave_direction_deg": 244.8
+    },
+    {
+      "valid_time_utc": "2026-11-22T06:00:00+00:00",
+      "tp_peak_mean_s": 15.984,
+      "hs_mean_m": 2.941,
+      "wave_direction_deg": 245.7
+    },
+    {
+      "valid_time_utc": "2026-11-22T09:00:00+00:00",
+      "tp_peak_mean_s": 15.552,
+      "hs_mean_m": 2.842,
+      "wave_direction_deg": 246.2
+    },
+    {
+      "valid_time_utc": "2026-11-22T12:00:00+00:00",
+      "tp_peak_mean_s": 15.035,
+      "hs_mean_m": 2.715,
+      "wave_direction_deg": 246.0
+    },
+    {
+      "valid_time_utc": "2026-11-22T15:00:00+00:00",
+      "tp_peak_mean_s": 14.719,
+      "hs_mean_m": 2.678,
+      "wave_direction_deg": 245.7
+    },
+    {
+      "valid_time_utc": "2026-11-22T18:00:00+00:00",
+      "tp_peak_mean_s": 14.428,
+      "hs_mean_m": 2.745,
+      "wave_direction_deg": 243.9
+    },
+    {
+      "valid_time_utc": "2026-11-22T21:00:00+00:00",
+      "tp_peak_mean_s": 14.339,
+      "hs_mean_m": 2.835,
+      "wave_direction_deg": 242.2
+    },
+    {
+      "valid_time_utc": "2026-11-23T00:00:00+00:00",
+      "tp_peak_mean_s": 14.373,
+      "hs_mean_m": 2.744,
+      "wave_direction_deg": 243.3
+    },
+    {
+      "valid_time_utc": "2026-11-23T03:00:00+00:00",
+      "tp_peak_mean_s": 14.319,
+      "hs_mean_m": 2.553,
+      "wave_direction_deg": 244.6
+    },
+    {
+      "valid_time_utc": "2026-11-23T06:00:00+00:00",
+      "tp_peak_mean_s": 14.142,
+      "hs_mean_m": 2.385,
+      "wave_direction_deg": 246.5
+    },
+    {
+      "valid_time_utc": "2026-11-23T09:00:00+00:00",
+      "tp_peak_mean_s": 13.697,
+      "hs_mean_m": 2.313,
+      "wave_direction_deg": 247.5
+    },
+    {
+      "valid_time_utc": "2026-11-23T12:00:00+00:00",
+      "tp_peak_mean_s": 13.344,
+      "hs_mean_m": 2.293,
+      "wave_direction_deg": 246.3
+    },
+    {
+      "valid_time_utc": "2026-11-23T15:00:00+00:00",
+      "tp_peak_mean_s": 13.192,
+      "hs_mean_m": 2.295,
+      "wave_direction_deg": 245.6
+    },
+    {
+      "valid_time_utc": "2026-11-23T18:00:00+00:00",
+      "tp_peak_mean_s": 15.239,
+      "hs_mean_m": 2.317,
+      "wave_direction_deg": 244.7
+    },
+    {
+      "valid_time_utc": "2026-11-23T21:00:00+00:00",
+      "tp_peak_mean_s": 17.374,
+      "hs_mean_m": 2.534,
+      "wave_direction_deg": 241.1
+    },
+    {
+      "valid_time_utc": "2026-11-24T00:00:00+00:00",
+      "tp_peak_mean_s": 17.039,
+      "hs_mean_m": 2.729,
+      "wave_direction_deg": 239.9
+    },
+    {
+      "valid_time_utc": "2026-11-24T03:00:00+00:00",
+      "tp_peak_mean_s": 16.266,
+      "hs_mean_m": 2.759,
+      "wave_direction_deg": 239.0
+    },
+    {
+      "valid_time_utc": "2026-11-24T06:00:00+00:00",
+      "tp_peak_mean_s": 15.918,
+      "hs_mean_m": 2.673,
+      "wave_direction_deg": 237.4
+    },
+    {
+      "valid_time_utc": "2026-11-24T09:00:00+00:00",
+      "tp_peak_mean_s": 15.622,
+      "hs_mean_m": 2.548,
+      "wave_direction_deg": 237.4
+    },
+    {
+      "valid_time_utc": "2026-11-24T12:00:00+00:00",
+      "tp_peak_mean_s": 15.087,
+      "hs_mean_m": 2.553,
+      "wave_direction_deg": 236.0
+    },
+    {
+      "valid_time_utc": "2026-11-24T15:00:00+00:00",
+      "tp_peak_mean_s": 14.761,
+      "hs_mean_m": 2.602,
+      "wave_direction_deg": 235.2
+    },
+    {
+      "valid_time_utc": "2026-11-24T18:00:00+00:00",
+      "tp_peak_mean_s": 14.593,
+      "hs_mean_m": 2.665,
+      "wave_direction_deg": 235.8
+    },
+    {
+      "valid_time_utc": "2026-11-24T21:00:00+00:00",
+      "tp_peak_mean_s": 14.54,
+      "hs_mean_m": 2.88,
+      "wave_direction_deg": 234.6
+    },
+    {
+      "valid_time_utc": "2026-11-25T00:00:00+00:00",
+      "tp_peak_mean_s": 13.557,
+      "hs_mean_m": 2.93,
+      "wave_direction_deg": 234.6
+    },
+    {
+      "valid_time_utc": "2026-11-25T03:00:00+00:00",
+      "tp_peak_mean_s": 14.263,
+      "hs_mean_m": 2.766,
+      "wave_direction_deg": 235.4
+    },
+    {
+      "valid_time_utc": "2026-11-25T06:00:00+00:00",
+      "tp_peak_mean_s": 14.095,
+      "hs_mean_m": 2.536,
+      "wave_direction_deg": 235.2
+    },
+    {
+      "valid_time_utc": "2026-11-25T09:00:00+00:00",
+      "tp_peak_mean_s": 13.821,
+      "hs_mean_m": 2.445,
+      "wave_direction_deg": 234.8
+    },
+    {
+      "valid_time_utc": "2026-11-25T12:00:00+00:00",
+      "tp_peak_mean_s": 13.513,
+      "hs_mean_m": 2.582,
+      "wave_direction_deg": 233.3
+    },
+    {
+      "valid_time_utc": "2026-11-25T15:00:00+00:00",
+      "tp_peak_mean_s": 13.585,
+      "hs_mean_m": 2.714,
+      "wave_direction_deg": 231.7
+    },
+    {
+      "valid_time_utc": "2026-11-25T18:00:00+00:00",
+      "tp_peak_mean_s": 14.006,
+      "hs_mean_m": 2.885,
+      "wave_direction_deg": 231.0
+    },
+    {
+      "valid_time_utc": "2026-11-25T21:00:00+00:00",
+      "tp_peak_mean_s": 13.938,
+      "hs_mean_m": 3.104,
+      "wave_direction_deg": 230.3
+    },
+    {
+      "valid_time_utc": "2026-11-26T00:00:00+00:00",
+      "tp_peak_mean_s": 11.175,
+      "hs_mean_m": 3.172,
+      "wave_direction_deg": 230.2
+    },
+    {
+      "valid_time_utc": "2026-11-26T03:00:00+00:00",
+      "tp_peak_mean_s": 14.117,
+      "hs_mean_m": 2.923,
+      "wave_direction_deg": 230.7
+    },
+    {
+      "valid_time_utc": "2026-11-26T06:00:00+00:00",
+      "tp_peak_mean_s": 14.036,
+      "hs_mean_m": 2.68,
+      "wave_direction_deg": 231.3
+    },
+    {
+      "valid_time_utc": "2026-11-26T09:00:00+00:00",
+      "tp_peak_mean_s": 13.865,
+      "hs_mean_m": 2.487,
+      "wave_direction_deg": 232.0
+    },
+    {
+      "valid_time_utc": "2026-11-26T12:00:00+00:00",
+      "tp_peak_mean_s": 13.614,
+      "hs_mean_m": 2.375,
+      "wave_direction_deg": 232.7
+    },
+    {
+      "valid_time_utc": "2026-11-26T15:00:00+00:00",
+      "tp_peak_mean_s": 13.413,
+      "hs_mean_m": 2.279,
+      "wave_direction_deg": 233.3
+    },
+    {
+      "valid_time_utc": "2026-11-26T18:00:00+00:00",
+      "tp_peak_mean_s": 13.258,
+      "hs_mean_m": 2.186,
+      "wave_direction_deg": 233.7
+    },
+    {
+      "valid_time_utc": "2026-11-26T21:00:00+00:00",
+      "tp_peak_mean_s": 13.131,
+      "hs_mean_m": 2.109,
+      "wave_direction_deg": 234.0
+    },
+    {
+      "valid_time_utc": "2026-11-27T00:00:00+00:00",
+      "tp_peak_mean_s": 13.002,
+      "hs_mean_m": 2.034,
+      "wave_direction_deg": 234.3
+    },
+    {
+      "valid_time_utc": "2026-11-27T03:00:00+00:00",
+      "tp_peak_mean_s": 12.85,
+      "hs_mean_m": 1.956,
+      "wave_direction_deg": 234.6
+    },
+    {
+      "valid_time_utc": "2026-11-27T06:00:00+00:00",
+      "tp_peak_mean_s": 12.645,
+      "hs_mean_m": 1.89,
+      "wave_direction_deg": 235.4
+    },
+    {
+      "valid_time_utc": "2026-11-27T09:00:00+00:00",
+      "tp_peak_mean_s": 12.443,
+      "hs_mean_m": 1.803,
+      "wave_direction_deg": 236.2
+    },
+    {
+      "valid_time_utc": "2026-11-27T12:00:00+00:00",
+      "tp_peak_mean_s": 12.308,
+      "hs_mean_m": 1.732,
+      "wave_direction_deg": 236.6
+    },
+    {
+      "valid_time_utc": "2026-11-27T15:00:00+00:00",
+      "tp_peak_mean_s": 12.204,
+      "hs_mean_m": 1.669,
+      "wave_direction_deg": 236.9
+    },
+    {
+      "valid_time_utc": "2026-11-27T18:00:00+00:00",
+      "tp_peak_mean_s": 12.12,
+      "hs_mean_m": 1.601,
+      "wave_direction_deg": 237.3
+    },
+    {
+      "valid_time_utc": "2026-11-27T21:00:00+00:00",
+      "tp_peak_mean_s": 12.051,
+      "hs_mean_m": 1.526,
+      "wave_direction_deg": 237.8
+    },
+    {
+      "valid_time_utc": "2026-11-28T00:00:00+00:00",
+      "tp_peak_mean_s": 11.998,
+      "hs_mean_m": 1.448,
+      "wave_direction_deg": 238.4
+    },
+    {
+      "valid_time_utc": "2026-11-28T03:00:00+00:00",
+      "tp_peak_mean_s": 11.952,
+      "hs_mean_m": 1.377,
+      "wave_direction_deg": 239.0
+    },
+    {
+      "valid_time_utc": "2026-11-28T06:00:00+00:00",
+      "tp_peak_mean_s": 11.921,
+      "hs_mean_m": 1.317,
+      "wave_direction_deg": 239.5
+    },
+    {
+      "valid_time_utc": "2026-11-28T09:00:00+00:00",
+      "tp_peak_mean_s": 11.92,
+      "hs_mean_m": 1.28,
+      "wave_direction_deg": 239.7
+    },
+    {
+      "valid_time_utc": "2026-11-28T12:00:00+00:00",
+      "tp_peak_mean_s": 11.981,
+      "hs_mean_m": 1.268,
+      "wave_direction_deg": 239.6
+    },
+    {
+      "valid_time_utc": "2026-11-28T15:00:00+00:00",
+      "tp_peak_mean_s": 12.143,
+      "hs_mean_m": 1.277,
+      "wave_direction_deg": 239.2
+    },
+    {
+      "valid_time_utc": "2026-11-28T18:00:00+00:00",
+      "tp_peak_mean_s": 12.444,
+      "hs_mean_m": 1.308,
+      "wave_direction_deg": 238.6
+    },
+    {
+      "valid_time_utc": "2026-11-28T21:00:00+00:00",
+      "tp_peak_mean_s": 12.887,
+      "hs_mean_m": 1.358,
+      "wave_direction_deg": 237.8
+    },
+    {
+      "valid_time_utc": "2026-11-29T00:00:00+00:00",
+      "tp_peak_mean_s": 13.268,
+      "hs_mean_m": 1.419,
+      "wave_direction_deg": 237.2
+    },
+    {
+      "valid_time_utc": "2026-11-29T03:00:00+00:00",
+      "tp_peak_mean_s": 14.194,
+      "hs_mean_m": 1.494,
+      "wave_direction_deg": 237.0
+    },
+    {
+      "valid_time_utc": "2026-11-29T06:00:00+00:00",
+      "tp_peak_mean_s": 14.168,
+      "hs_mean_m": 1.521,
+      "wave_direction_deg": 237.0
+    },
+    {
+      "valid_time_utc": "2026-11-29T09:00:00+00:00",
+      "tp_peak_mean_s": 13.879,
+      "hs_mean_m": 1.556,
+      "wave_direction_deg": 237.1
+    },
+    {
+      "valid_time_utc": "2026-11-29T12:00:00+00:00",
+      "tp_peak_mean_s": 13.424,
+      "hs_mean_m": 1.63,
+      "wave_direction_deg": 236.9
+    },
+    {
+      "valid_time_utc": "2026-11-29T15:00:00+00:00",
+      "tp_peak_mean_s": 13.183,
+      "hs_mean_m": 1.697,
+      "wave_direction_deg": 236.6
+    },
+    {
+      "valid_time_utc": "2026-11-29T18:00:00+00:00",
+      "tp_peak_mean_s": 13.149,
+      "hs_mean_m": 1.74,
+      "wave_direction_deg": 236.4
+    },
+    {
+      "valid_time_utc": "2026-11-29T21:00:00+00:00",
+      "tp_peak_mean_s": 13.176,
+      "hs_mean_m": 1.781,
+      "wave_direction_deg": 236.4
+    },
+    {
+      "valid_time_utc": "2026-11-30T00:00:00+00:00",
+      "tp_peak_mean_s": 13.181,
+      "hs_mean_m": 1.856,
+      "wave_direction_deg": 236.3
+    }
+  ]
+}
