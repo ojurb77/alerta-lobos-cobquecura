@@ -1,0 +1,19 @@
+
+{
+  "name": "Alerta Lobos Cobquecura",
+  "short_name": "Alerta Lobos",
+  "description": "Panel experimental de alerta temprana de varamientos de crías de lobo marino común en Cobquecura.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f2f6fa",
+  "theme_color": "#103b58",
+  "icons": [
+    {
+      "src": "icono.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
