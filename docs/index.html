@@ -118,37 +118,27 @@ header .right {
 
 
 
-/* Paisaje original y arena continua */
+
+/* Paisaje superior y arena continua */
 body {
   background-color: #8c827a;
-
   background-image:
-    linear-gradient(
-      to bottom,
-      transparent 0px,
-      transparent 420px,
-      rgba(140,130,122,0) 600px,
-      rgba(140,130,122,.15) 800px,
-      rgba(140,130,122,.35) 1000px,
-      transparent 1200px
-    ),
     url("fondo-cobquecura.png"),
     url("arena-cobquecura.jpg");
 
   background-repeat:
     no-repeat,
-    no-repeat,
     repeat;
 
   background-position:
     center top,
-    center top,
     center top;
 
   background-size:
-    100% 1200px,
     100% auto,
     500px auto;
+
+  background-attachment: scroll;
 }
 
 /* Encabezado transparente sobre el mismo paisaje */
@@ -177,10 +167,16 @@ header::after {
 
 /* Adaptación exclusiva para celulares */
 @media (max-width:600px) {
-  body {
-    background-position: center top, 65% top;
-    background-size: 100% 1500px, auto 440px;
-  }
+body {
+  background-position:
+    65% top,
+    center top;
+
+  background-size:
+    auto 440px,
+    500px auto;
+}
+
 
   header {
     min-height: 290px;
