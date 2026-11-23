@@ -235,6 +235,66 @@ header::after {
   }
 }
 
+
+/* FONDO DEFINITIVO DE COBQUECURA */
+
+/* Una sola imagen, sin repeticiones */
+body {
+  background-color: #77716f;
+  background-image: url("fondo-cobquecura-final.png");
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: 100% auto;
+  background-attachment: scroll;
+}
+
+/* Desactivar capas antiguas */
+body::before {
+  display: none !important;
+}
+
+/* Encabezado transparente sobre el paisaje */
+header {
+  background-image: linear-gradient(
+    90deg,
+    rgba(9,49,77,.90) 0%,
+    rgba(9,49,77,.65) 35%,
+    rgba(9,49,77,.15) 75%,
+    transparent 100%
+  ) !important;
+  background-color: transparent !important;
+}
+
+header::after {
+  display: none !important;
+}
+
+/* Mantener legibles las tarjetas */
+.card {
+  background: rgba(255,255,255,.96);
+}
+
+.notice {
+  background: rgba(255,247,223,.97);
+}
+
+/* Encuadre para celulares */
+@media (max-width:600px) {
+  body {
+    background-size: auto 850px;
+    background-position: 60% top;
+  }
+
+  header {
+    min-height: 290px;
+    padding: 24px 18px 46px;
+  }
+
+  header .header-title {
+    max-width: 76%;
+  }
+}
+  
 </style></head><body><header>
   <div class="top">
     <div class="header-title">
