@@ -331,7 +331,9 @@ header::after {
 </div>
 <p class="small">Valores de oleaje previstos; no determinan por sí solos un varamiento.</p>
 </section><section class="card legend"><h2>Niveles de referencia</h2><div class="legendrow"><span class="dot g"></span><div><b>Verde · Bajo</b><div class="small">Estimación baja</div></div></div><div class="legendrow"><span class="dot y"></span><div><b>Amarillo · Vigilancia</b><div class="small">Desde 45%, candidato</div></div></div><div class="legendrow"><span class="dot o"></span><div><b>Naranja · Elevado</b><div class="small">Criterio por validar</div></div></div><div class="legendrow"><span class="dot r"></span><div><b>Rojo · Muy alto</b><div class="small">Criterio por validar</div></div></div><p class="foot">Colores propuestos, no umbrales oficiales.</p></section><section class="card wide"><h2>Pronóstico y nivel experimental</h2><div class="tablewrap"><table><thead><tr><th>Fecha objetivo</th><th>Tp predictor (s)</th><th>Probabilidad</th><th>Nivel</th><th>Estado</th></tr></thead><tbody id="predictions"><tr><td colspan="5">Cargando…</td></tr></tbody></table></div><p class="foot">La configuración actual genera predicciones solo del 16 de enero al 15 de febrero. Sin predicciones no significa riesgo cero.</p></section><section class="card side"><h2>Estado del sistema</h2><div class="metric"><div class="label">Última ejecución (UTC)</div><div id="updated" class="value">—</div></div><br><div class="metric"><div class="label">Fuente de datos</div><div id="source" class="small">—</div></div><br><div class="metric"><div class="label">Ventana modelada</div><div class="value">16 ene. – 15 feb.</div><div class="small">Fuera de estas fechas no se calculan predicciones actualmente.</div></div></section><section class="card full"><h2>Últimos registros de oleaje</h2><div class="tablewrap"><table><thead><tr>
-<th>Fecha UTC</th><th>Tp medio (s)</th><th>Hs media (m)</th><th>Hs máx. (m)</th><th>Dirección (°)</th><th>Pasos válidos</th><th>Calidad</th>
+<th>Fecha</th>
+<th>Altura media (m)</th>
+<th>Altura máxima (m)</th>
 </tr></thead><tbody id="waves"><tr><td colspan="7">Cargando…</td></tr></tbody></table></div></section>
 <section class="card full">
   <h2>Mareas de Cobquecura · Próximos días</h2>
@@ -364,9 +366,15 @@ $("coverage").textContent=last?last.valid_3h_steps+"/8":"—";
 $("hs-mean").textContent=last&&last.hs_mean_m!=null?Number(last.hs_mean_m).toFixed(2)+" m":"—";
 $("hs-max").textContent=last&&last.hs_max_m!=null?Number(last.hs_max_m).toFixed(2)+" m":"—";
 $("wave-direction").textContent=last&&last.wave_direction_deg!=null?Number(last.wave_direction_deg).toFixed(0)+"°":"—";
-$("wave-date").textContent="Fecha: "+(last?last.date_utc:"sin datos");$("waves").innerHTML=ws.length?ws.slice(-10).reverse().map(x=>'<tr><td>'+esc(x.date_utc)+'</td><td>'+
-esc(x.tp_peak_mean_s??"—")+'</td><td>'+esc(x.hs_mean_m??"—")+'</td><td>'+esc(x.hs_max_m??"—")+'</td><td>'+esc(x.wave_direction_deg??"—")+'</td><td>'+esc(x.valid_3h_steps??"—")
-+'/8</td><td><span class="pill '+(x.coverage_ok?"ok":"warn")+'">'+(x.coverage_ok?"Suficiente":"Incompleta")+'</span></td></tr>').join(""):'<tr><td colspan="7">Sin datos disponibles.</td></tr>'}catch(e){$("connection").textContent="● Error de conexión";$("level").textContent="SIN DATOS";$("desc").textContent="No se puede confirmar el estado";$("message").textContent="No se pudo leer el estado. No interpretar como riesgo bajo.";$("predictions").innerHTML='<tr><td colspan="5">Error al cargar los datos.</td></tr>'}
+$("wave-date").textContent="Fecha: "+(last?last.date_utc:"sin datos");$("waves").innerHTML = ws.length
+  ? ws.slice(-10).reverse().map(x =>
+      '<tr>' +
+      '<td>' + esc(x.date_utc ?? "—") + '</td>' +
+      '<td>' + esc(x.hs_mean_m == null ? "—" : Number(x.hs_mean_m).toFixed(2)) + '</td>' +
+      '<td>' + esc(x.hs_max_m == null ? "—" : Number(x.hs_max_m).toFixed(2)) + '</td>' +
+      '</tr>'
+    ).join("")
+  : '<tr><td colspan="3">Sin datos disponibles.</td></tr>';}catch(e){$("connection").textContent="● Error de conexión";$("level").textContent="SIN DATOS";$("desc").textContent="No se puede confirmar el estado";$("message").textContent="No se pudo leer el estado. No interpretar como riesgo bajo.";$("predictions").innerHTML='<tr><td colspan="5">Error al cargar los datos.</td></tr>'}
 }
 
   
