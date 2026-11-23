@@ -169,24 +169,54 @@ header::after {
   background: rgba(255,247,223,.96);
 }
 
+
 /* Adaptación exclusiva para celulares */
 @media (max-width:600px) {
+
   body {
-    background-size: auto 1150px;
-    background-position: 65% top;
+    background-color: #77716d;
+    background-image: url("arena-cobquecura.jpg");
+    background-repeat: repeat;
+    background-size: 500px auto;
+    background-position: center top;
   }
 
+  /* Mantener el lobito con su encuadre actual */
+  body::before {
+    height: 1150px;
+    background-size: auto 1150px;
+    background-position: 65% top;
+
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      black 0%,
+      black 38%,
+      rgba(0,0,0,.85) 55%,
+      rgba(0,0,0,.45) 75%,
+      transparent 100%
+    );
+
+    mask-image: linear-gradient(
+      to bottom,
+      black 0%,
+      black 38%,
+      rgba(0,0,0,.85) 55%,
+      rgba(0,0,0,.45) 75%,
+      transparent 100%
+    );
+  }
+
+  /* Azul del encabezado sin borde horizontal brusco */
   header {
     min-height: 290px;
     padding: 24px 18px 46px;
-    background-image: linear-gradient(
+    background: linear-gradient(
       90deg,
       rgba(9,49,77,.90) 0%,
       rgba(9,49,77,.68) 40%,
       rgba(9,49,77,.25) 75%,
       transparent 100%
     );
-    background-color: transparent;
   }
 
   header .header-title {
@@ -197,7 +227,6 @@ header::after {
     background: rgba(255,255,255,.96);
   }
 }
-
 
 
 </style></head><body><header>
