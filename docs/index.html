@@ -120,43 +120,19 @@ header .right {
 
 
 
-/* Paisaje y arena con transición suave */
+
+/* Paisaje continuo de Cobquecura */
 body {
   background-color: #8c827a;
-  background-image: url("arena-cobquecura.jpg");
-  background-repeat: repeat;
-  background-size: 500px auto;
+  background-image: url("fondo-cobquecura-extendido.png");
+  background-repeat: no-repeat;
   background-position: center top;
+  background-size: 100% auto;
 }
 
-/* Fotografía superior difuminada hacia la arena */
+/* Evitar superponer la fotografía antigua */
 body::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1000px;
-  background: url("fondo-cobquecura.png")
-              center top / 100% auto no-repeat;
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    black 0%,
-    black 35%,
-    rgba(0,0,0,.85) 50%,
-    rgba(0,0,0,.45) 70%,
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    black 0%,
-    black 35%,
-    rgba(0,0,0,.85) 50%,
-    rgba(0,0,0,.45) 70%,
-    transparent 100%
-  );
-  pointer-events: none;
-  z-index: 0;
+  display: none;
 }
 
 /* Contenido por encima del paisaje */
@@ -166,9 +142,9 @@ main {
   z-index: 1;
 }
 
-/* Encabezado con azul suavemente difuminado */
+/* Encabezado transparente sobre la misma fotografía */
 header {
-  background: linear-gradient(
+  background-image: linear-gradient(
     90deg,
     rgba(9,49,77,.90) 0%,
     rgba(9,49,77,.68) 28%,
@@ -179,12 +155,12 @@ header {
   background-color: transparent;
 }
 
-/* Sin separación decorativa */
+/* Eliminar la separación decorativa */
 header::after {
   display: none;
 }
 
-/* Tarjetas legibles */
+/* Tarjetas legibles sobre la arena */
 .card {
   background: rgba(255,255,255,.94);
 }
@@ -195,22 +171,22 @@ header::after {
 
 /* Adaptación exclusiva para celulares */
 @media (max-width:600px) {
-  body::before {
-    height: 950px;
-    background-size: auto 950px;
+  body {
+    background-size: auto 1150px;
     background-position: 65% top;
   }
 
   header {
     min-height: 290px;
     padding: 24px 18px 46px;
-    background: linear-gradient(
+    background-image: linear-gradient(
       90deg,
       rgba(9,49,77,.90) 0%,
       rgba(9,49,77,.68) 40%,
       rgba(9,49,77,.25) 75%,
       transparent 100%
     );
+    background-color: transparent;
   }
 
   header .header-title {
@@ -221,6 +197,7 @@ header::after {
     background: rgba(255,255,255,.96);
   }
 }
+
 
 
 </style></head><body><header>
