@@ -472,5 +472,11 @@
     "run_status": "ok_out_of_season",
     "message": "No hay fechas objetivo dentro de la ventana estacional (16 de enero–15 de febrero) en el horizonte actual.",
     "predictions": []
+  },
+  {
+    "run_timestamp_utc": "2026-11-23T18:21:48.313494+00:00",
+    "run_status": "ok_out_of_season",
+    "message": "No hay fechas objetivo dentro de la ventana estacional (16 de enero–15 de febrero) en el horizonte actual.",
+    "predictions": []
   }
 ]
