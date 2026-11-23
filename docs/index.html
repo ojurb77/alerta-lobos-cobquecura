@@ -118,21 +118,37 @@ header .right {
 
 
 
-/* Paisaje único: una sola fotografía */
+/* Paisaje original y arena continua */
 body {
-  background-color: #c7b7a5;
+  background-color: #8c827a;
+
   background-image:
     linear-gradient(
       to bottom,
       transparent 0px,
       transparent 420px,
-      rgba(199,183,165,.25) 800px,
-      #c7b7a5 1700px
+      rgba(140,130,122,0) 600px,
+      rgba(140,130,122,.15) 800px,
+      rgba(140,130,122,.35) 1000px,
+      transparent 1200px
     ),
-    url("fondo-cobquecura.png");
-  background-repeat: no-repeat, no-repeat;
-  background-position: center top, center top;
-  background-size: 100% 1700px, 100% auto;
+    url("fondo-cobquecura.png"),
+    url("arena-cobquecura.jpg");
+
+  background-repeat:
+    no-repeat,
+    no-repeat,
+    repeat;
+
+  background-position:
+    center top,
+    center top,
+    center top;
+
+  background-size:
+    100% 1200px,
+    100% auto,
+    500px auto;
 }
 
 /* Encabezado transparente sobre el mismo paisaje */
