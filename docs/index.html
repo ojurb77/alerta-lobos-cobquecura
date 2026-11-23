@@ -367,7 +367,9 @@ $("hs-mean").textContent=last&&last.hs_mean_m!=null?Number(last.hs_mean_m).toFix
 $("hs-max").textContent=last&&last.hs_max_m!=null?Number(last.hs_max_m).toFixed(2)+" m":"—";
 $("wave-direction").textContent=last&&last.wave_direction_deg!=null?Number(last.wave_direction_deg).toFixed(0)+"°":"—";
 $("wave-date").textContent="Fecha: "+(last?last.date_utc:"sin datos");$("waves").innerHTML = ws.length
-  ? ws.slice(-10).reverse().map(x =>
+  ? ws.slice(-10).sort((a, b) =>
+  String(a.date_utc).localeCompare(String(b.date_utc))
+).map(x =>
       '<tr>' +
       '<td>' + esc(x.date_utc ?? "—") + '</td>' +
       '<td>' + esc(x.hs_mean_m == null ? "—" : Number(x.hs_mean_m).toFixed(2)) + '</td>' +
