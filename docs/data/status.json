@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "run_status": "ok_out_of_season",
-  "run_timestamp_utc": "2026-11-26T05:14:10.533275+00:00",
+  "run_timestamp_utc": "2026-11-27T05:12:12.481773+00:00",
   "data_source": "Copernicus Marine Global Ocean Waves Analysis and Forecast",
   "dataset_id": "cmems_mod_glo_wav_anfc_0.083deg_PT3H-i",
   "variable": "VTPK",
@@ -10,92 +10,92 @@
   "predictions": [],
   "daily_wave_data": [
     {
-      "date_utc": "2026-11-26",
-      "tp_peak_mean_s": 14.467,
-      "hs_mean_m": 2.731,
-      "hs_max_m": 2.99,
-      "wave_direction_deg": 232.3,
-      "valid_3h_steps": 8,
-      "coverage_ok": true
-    },
-    {
       "date_utc": "2026-11-27",
-      "tp_peak_mean_s": 12.124,
-      "hs_mean_m": 1.934,
-      "hs_max_m": 2.336,
-      "wave_direction_deg": 236.8,
+      "tp_peak_mean_s": 12.561,
+      "hs_mean_m": 1.881,
+      "hs_max_m": 2.213,
+      "wave_direction_deg": 237.0,
       "valid_3h_steps": 8,
       "coverage_ok": true
     },
     {
       "date_utc": "2026-11-28",
-      "tp_peak_mean_s": 12.348,
-      "hs_mean_m": 1.597,
-      "hs_max_m": 1.744,
-      "wave_direction_deg": 235.5,
-      "valid_3h_steps": 8,
-      "coverage_ok": true
-    },
-    {
-      "date_utc": "2026-11-29",
-      "tp_peak_mean_s": 13.277,
-      "hs_mean_m": 1.735,
-      "hs_max_m": 1.831,
-      "wave_direction_deg": 235.0,
-      "valid_3h_steps": 8,
-      "coverage_ok": true
-    },
-    {
-      "date_utc": "2026-11-30",
-      "tp_peak_mean_s": 13.807,
-      "hs_mean_m": 2.001,
-      "hs_max_m": 2.247,
+      "tp_peak_mean_s": 12.873,
+      "hs_mean_m": 1.62,
+      "hs_max_m": 1.681,
       "wave_direction_deg": 235.4,
       "valid_3h_steps": 8,
       "coverage_ok": true
     },
     {
-      "date_utc": "2026-12-01",
-      "tp_peak_mean_s": 14.423,
-      "hs_mean_m": 2.299,
-      "hs_max_m": 2.449,
+      "date_utc": "2026-11-29",
+      "tp_peak_mean_s": 12.597,
+      "hs_mean_m": 1.661,
+      "hs_max_m": 1.723,
+      "wave_direction_deg": 236.1,
+      "valid_3h_steps": 8,
+      "coverage_ok": true
+    },
+    {
+      "date_utc": "2026-11-30",
+      "tp_peak_mean_s": 13.647,
+      "hs_mean_m": 2.129,
+      "hs_max_m": 2.363,
       "wave_direction_deg": 234.8,
       "valid_3h_steps": 8,
       "coverage_ok": true
     },
     {
+      "date_utc": "2026-12-01",
+      "tp_peak_mean_s": 14.25,
+      "hs_mean_m": 2.507,
+      "hs_max_m": 2.555,
+      "wave_direction_deg": 233.9,
+      "valid_3h_steps": 8,
+      "coverage_ok": true
+    },
+    {
       "date_utc": "2026-12-02",
-      "tp_peak_mean_s": 13.659,
-      "hs_mean_m": 1.854,
-      "hs_max_m": 2.086,
-      "wave_direction_deg": 238.8,
+      "tp_peak_mean_s": 13.349,
+      "hs_mean_m": 2.205,
+      "hs_max_m": 2.489,
+      "wave_direction_deg": 236.5,
       "valid_3h_steps": 8,
       "coverage_ok": true
     },
     {
       "date_utc": "2026-12-03",
-      "tp_peak_mean_s": 14.457,
-      "hs_mean_m": 1.478,
-      "hs_max_m": 1.615,
-      "wave_direction_deg": 248.8,
+      "tp_peak_mean_s": 14.233,
+      "hs_mean_m": 1.922,
+      "hs_max_m": 2.104,
+      "wave_direction_deg": 242.0,
       "valid_3h_steps": 8,
       "coverage_ok": true
     },
     {
       "date_utc": "2026-12-04",
-      "tp_peak_mean_s": 16.572,
-      "hs_mean_m": 1.241,
-      "hs_max_m": 1.322,
-      "wave_direction_deg": 259.1,
+      "tp_peak_mean_s": 14.1,
+      "hs_mean_m": 1.607,
+      "hs_max_m": 1.796,
+      "wave_direction_deg": 248.8,
       "valid_3h_steps": 8,
       "coverage_ok": true
     },
     {
       "date_utc": "2026-12-05",
-      "tp_peak_mean_s": 16.057,
-      "hs_mean_m": 1.169,
-      "hs_max_m": 1.169,
-      "wave_direction_deg": 262.7,
+      "tp_peak_mean_s": 16.796,
+      "hs_mean_m": 1.137,
+      "hs_max_m": 1.287,
+      "wave_direction_deg": 267.6,
+      "valid_3h_steps": 8,
+      "coverage_ok": true
+    },
+    {
+      "date_utc": "2026-12-06",
+      "tp_peak_mean_s": 16.183,
+      "hs_mean_m": 1.013,
+      "hs_max_m": 1.013,
+      "wave_direction_deg": 275.4,
       "valid_3h_steps": 1,
       "coverage_ok": false
     }
