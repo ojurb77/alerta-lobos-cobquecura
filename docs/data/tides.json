@@ -2,33 +2,10 @@
   "schema_version": 1,
   "location": "Cobquecura, Ñuble, Chile",
   "source": "https://tablademareas.com/cl/nuble/cobquecura",
-  "updated_at_chile": "2026-11-27T15:59:36.684334-03:00",
-  "window_days": 4,
+  "updated_at_chile": "2026-11-28T14:33:12.741856-03:00",
+  "window_days": 3,
   "note": "Datos extraídos automáticamente; verificar con la fuente.",
   "days": [
-    {
-      "date": "2026-11-27",
-      "sunrise": "6:28",
-      "sunset": "20:49",
-      "tides": [
-        {
-          "time": "0:53",
-          "height_m": 1.9
-        },
-        {
-          "time": "7:51",
-          "height_m": 0.2
-        },
-        {
-          "time": "13:34",
-          "height_m": 1.2
-        },
-        {
-          "time": "19:07",
-          "height_m": 0.4
-        }
-      ]
-    },
     {
       "date": "2026-11-28",
       "sunrise": "6:28",
